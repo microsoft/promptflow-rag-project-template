@@ -1,14 +1,28 @@
-# Project
+# copilot rag samples 
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This repo is a collection of samples on using promptflow and azure ai for development and evaluation of rag applications. 
+To run each sample go the specific folder. In this case, let me walk you through the financial_transcript sample. Please go to the folder and follow the instructions for running a rag app locally and performing evaluations. 
+steps to run rag app locally:
+1) follow prompt flow documentation to set up your promptflow python env:
+https://microsoft.github.io/promptflow/how-to-guides/quick-start.html
+2) create connections for ACS, AOAI, etc by running python code in connections directory. 
+3) go to rag-copilot directory, open flow.dag.yaml, then choose the connections that you have created. Then deploy and interact with the bot. 
+Note: the assumption is that the search index has previously been created. 
 
-As the maintainer of this project, please make a few updates:
-
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+Steps for batch evaluation:
+1) go to rag-copilot directory, open flow.dag.yaml
+2) click batch run 
+3) when selecting input source, choose evalset.csv.
+4) Then choose the data mapping on the run yaml file. 
+5) The click run on the yaml file. 
+Once the run is completed, then you need to
+6) go to evaluator directory and open the flow.dag.yaml file. 
+7) click the batch run to start an evaluation flow. 
+8) when prompted chose "existing run" since we are going to use the results of the main rag flow for the evaluation flow. 
+9) choose the run in step 1 of the evaluation 
+10) This will create a run yaml file. You need to uncomment the data to be able to chose the evalset.csv again. You will use it for ground truth. 
+11) Choose the column mapping for question and ground truth and then hit run!
+12) Note the address of the output file in your terminal. 
 
 ## Contributing
 
