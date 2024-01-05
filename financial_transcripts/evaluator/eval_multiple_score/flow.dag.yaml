@@ -1,0 +1,76 @@
+$schema: https://azuremlschemas.azureedge.net/promptflow/latest/Flow.schema.json
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  question:
+    type: string
+    default: How many Azure Arc customers does Microsoft currently have in Y23Q1?
+  answer:
+    type: string
+    default: More than 8,500 Arc customers, more than double the number a year ago
+  reply:
+    type: string
+    default: Over 8500 Arc customers. This is more than double the number a year ago
+  context:
+    type: string
+    default: '["More than 8,500 Arc customers, more than double the number a year ago"]'
+outputs:
+  llm_similarity:
+    type: string
+    reference: ${parse_score_llm_similarity.output}
+  groundedness:
+    type: string
+    reference: ${parse_score_llm_groundedness.output}
+nodes:
+- name: llm_similarity_score
+  type: llm
+  source:
+    type: code
+    path: llm_similarity_score.md
+  inputs:
+    deployment_name: gpt-35-turbo
+    model: gpt-4
+    max_tokens: 10
+    answer: ${inputs.answer}
+    question: ${inputs.question}
+    reply: ${inputs.reply}
+    temperature: 0
+  connection: aoai_connection
+  api: chat
+- name: parse_score_llm_similarity
+  type: python
+  source:
+    type: code
+    path: parse_llm_similarity.py
+  inputs:
+    gpt_score: ${llm_similarity_score.output}
+- name: llm_groundedness_score
+  type: llm
+  source:
+    type: code
+    path: gpt_groundedness.md
+  inputs:
+    deployment_name: gpt-35-turbo
+    temperature: 0
+    max_tokens: 10
+    answer: ${inputs.answer}
+    question: ${inputs.question}
+    context: ${inputs.context}
+  connection: aoai_connection
+  api: chat
+- name: parse_score_llm_groundedness
+  type: python
+  source:
+    type: code
+    path: calc_groundedness.py
+  inputs:
+    gpt_score: ${llm_groundedness_score.output}
+- name: aggregate
+  type: python
+  source:
+    type: code
+    path: aggregate.py
+  inputs:
+    llm_similarity_scores: ${parse_score_llm_similarity.output}
+    llm_groundedness_score: ${parse_score_llm_groundedness.output}
+  aggregation: true
