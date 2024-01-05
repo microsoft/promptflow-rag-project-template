@@ -3,26 +3,28 @@
 This repo is a collection of samples on using promptflow and azure ai for development and evaluation of rag applications. 
 To run each sample go the specific folder. In this case, let me walk you through the financial_transcript sample. Please go to the folder and follow the instructions for running a rag app locally and performing evaluations. 
 steps to run rag app locally:
-1) follow prompt flow documentation to set up your promptflow python env:
+1) Follow prompt flow documentation to set up your promptflow python env:
 https://microsoft.github.io/promptflow/how-to-guides/quick-start.html
-2) create connections for ACS, AOAI, etc by running python code in connections directory. 
-3) go to rag-copilot directory, open flow.dag.yaml, then choose the connections that you have created. Then deploy and interact with the bot. 
+2) Create connections for ACS, AOAI, etc by running python code in connections directory. 
+3) Go to rag-copilot directory, open flow.dag.yaml, then choose the connections that you have created. Build locally to deploy the app and interact with the bot in your local environment. 
 Note: the assumption is that the search index has previously been created. 
 
 Steps for batch evaluation:
-1) go to rag-copilot directory, open flow.dag.yaml
-2) click batch run 
-3) when selecting input source, choose evalset.csv.
+1) Go to rag-copilot directory, open flow.dag.yaml
+2) Click batch run 
+3) When selecting input source, choose evalset.csv.
 4) Then choose the data mapping on the run yaml file. 
 5) The click run on the yaml file. 
 Once the run is completed, then you need to
-6) go to evaluator directory and open the flow.dag.yaml file. 
-7) click the batch run to start an evaluation flow. 
-8) when prompted chose "existing run" since we are going to use the results of the main rag flow for the evaluation flow. 
-9) choose the run in step 1 of the evaluation 
-10) This will create a run yaml file. You need to uncomment the data to be able to chose the evalset.csv again. You will use it for ground truth. 
-11) Choose the column mapping for question and ground truth and then hit run!
-12) Note the address of the output file in your terminal. 
+6) Go to evaluator directory and choose one of the folders and open the flow.dag.yaml file. Note that each folder presents one or many evaluation metrics.   
+7) Click the batch run to start an evaluation flow. 
+8) when prompted, chose "existing run" since we are going to use the results of the main rag flow for the evaluation flow. 
+9) Choose the run in step 1 of the evaluation 
+10) This will create a run yaml file. You need to uncomment the data to be able to chose the evalset.csv again. You may need to use some columns such as ground truth answers. 
+11) Choose the column mapping for the necessary inputs.
+12) Note the name of the output file in your terminal.
+13) Click on the promptflow icon on the left ribbon of vscode
+14) Go to "Batch Run History" section and choose your recent run(s), then click on the Visualize.
 
 ## Contributing
 
