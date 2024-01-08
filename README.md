@@ -2,14 +2,17 @@
 
 This repo is a collection of samples on using promptflow and azure ai for development and evaluation of rag applications. 
 To run each sample go the specific folder. In this case, let me walk you through the financial_transcript sample. Please go to the folder and follow the instructions for running a rag app locally and performing evaluations. 
-steps to run rag app locally:
+
+a. steps to run rag app locally:
+
 1) Follow prompt flow documentation to set up your promptflow python env:
 https://microsoft.github.io/promptflow/how-to-guides/quick-start.html
 2) Create connections for ACS, AOAI, etc by running python code in connections directory. 
 3) Go to rag-copilot directory, open flow.dag.yaml, then choose the connections that you have created. Build locally to deploy the app and interact with the bot in your local environment. 
 Note: the assumption is that the search index has previously been created. 
 
-Steps for batch evaluation:
+b. Steps for batch evaluation:
+
 1) Go to rag-copilot directory, open flow.dag.yaml
 2) Click batch run 
 3) When selecting input source, choose evalset.csv.
@@ -26,9 +29,11 @@ Once the run is completed, then you need to
 13) Click on the promptflow icon on the left ribbon of vscode
 14) Go to "Batch Run History" section and choose your recent run(s), then click on the Visualize.
 
-Steps for experimentation
-15) Similar to step3 open the flow.dag.yaml file. Locate a prompt node and clone it. It will create a new variant and associated jinja file. Make the changes to the prompt in the jinja file. You may also make the changes to the open ai variables such as temperature in the cloned node in the flow.dag.yaml. You may create multiple variants for clonable nodes. Then save the file. 
-16) Finally, go through all the steps for the batch evaluations again to obtain evaluations for all the variants and compare the results. 
+Steps for experimentation:
+
+1) Similar to step a.3 open the flow.dag.yaml file. Locate a prompt node and clone it. It will create a new variant and associated jinja file. Make the changes to the prompt in the jinja file. You may also make the changes to the open ai variables such as temperature in the cloned node in the flow.dag.yaml. You may create multiple variants for clonable nodes. Then save the file. 
+2) Finally, go through all the steps for the batch evaluations again to obtain evaluations for all the variants and compare the results. 
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
