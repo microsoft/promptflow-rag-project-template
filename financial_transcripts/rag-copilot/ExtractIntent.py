@@ -1,19 +1,22 @@
 from promptflow import tool
+import re
 
 @tool
-def extract_intent(input: str, query: str) -> str:
-  entries = None
-  if 'Single Intents:' in input:
-    entries = input.split('Single Intents:', 2)
-  elif 'Single Intent:' in input:
-    entries = input.split('Single Intent:', 2)
-  
-  if entries and len(entries) == 2:
+def extract_intent(input: str, query: str):
+    # Extract ticker using regular expression
+    ticker_match = re.search(r'\bticker\s+(\w+)', query, re.IGNORECASE)
+    ticker = ticker_match.group(1) if ticker_match else None
+
+    # Extract year using regular expression
+    year_match = re.search(r'\byear\s+(\d{2})', query, re.IGNORECASE)
+    year = int(year_match.group(1)) if year_match else None
+
+    # Extract quarter using regular expression
+    quarter_match = re.search(r'\bquarter\s+(\d)', query, re.IGNORECASE)
+    quarter = quarter_match.group(1) if quarter_match else None
+
     return {
-      "current_message_intent": entries[0].strip(),
-      "search_intents": entries[1].strip()
+      'Ticker': ticker,
+      'Year': str(year),
+      'Quarter': quarter
     }
-  return {
-      "current_message_intent": query,
-      "search_intents": query
-  }
