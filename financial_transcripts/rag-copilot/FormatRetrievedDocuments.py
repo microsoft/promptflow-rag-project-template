@@ -8,8 +8,10 @@ def format_retrieved_documents(docs: list, maxTokens: int) -> str:
   for index, doc in enumerate(docs):
     formattedDocs.append({
       f"[doc{index}]": {
-        "title": doc['title'],
-        "content": doc['content']
+        "ticker": doc['Ticker'],
+        "quarter": doc['Quarter'],
+        "year": doc['Year'],
+        "content": doc['Chunk']
       }
     })
     formattedResult = { "retrieved_documents": formattedDocs }

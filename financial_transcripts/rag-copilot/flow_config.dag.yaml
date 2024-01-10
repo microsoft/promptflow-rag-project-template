@@ -12,6 +12,13 @@ inputs:
     type: string
     default: ' "What is the growth rate of Azure ML revenue in FY23Q1?'
     is_chat_input: true
+  config:
+    type: object
+    default:
+      TOP_K: 5
+  TOP_K:
+    type: int
+    default: 5
 outputs:
   reply:
     type: string
@@ -31,7 +38,6 @@ nodes:
     path: QueryParser.py
   inputs:
     query: ${inputs.query}
-    conversation: ${inputs.chat_history}
   aggregation: false
 - name: RetrieveDocumentsACS
   type: python
@@ -44,7 +50,7 @@ nodes:
     embeddingModelName: text-embedding-ada-002
     queries: ${inputs.query}
     indexName: rag_prop_j_3
-    topK: 5
+    topK: ${inputs.TOP_K}
     vectorColName: Embedding
     filterCol: ${QueryParser.output}
   aggregation: false
