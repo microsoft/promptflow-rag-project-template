@@ -10,7 +10,7 @@ inputs:
     is_chat_history: true
   query:
     type: string
-    default: ' "What is the growth rate of Azure revenue in FY23, Q2, and Ticker MSFT?'
+    default: ' "What is the growth rate of Azure ML revenue in FY23Q1?'
     is_chat_input: true
 outputs:
   reply:
@@ -22,34 +22,31 @@ outputs:
     reference: ${FormatRetrievedDocuments.output}
   filter:
     type: string
-    reference: ${ExtractIntent.output}
+    reference: ${QueryParser.output}
 nodes:
-- name: DetermineIntent
-  type: llm
-  source:
-    type: code
-    path: DetermineIntent.jinja2
-  inputs:
-    deployment_name: gpt-35-turbo
-    temperature: 0
-    top_p: 1
-    max_tokens: 800
-    presence_penalty: 0
-    frequency_penalty: 0
-    chat_history: ${inputs.chat_history}
-    query: ${inputs.query}
-  connection: aoai_connection
-  api: chat
-  use_variants: false
-- name: ExtractIntent
+- name: QueryParser
   type: python
   source:
     type: code
-    path: ExtractIntent.py
+    path: QueryParser.py
   inputs:
-    input: ${DetermineIntent.output}
     query: ${inputs.query}
-  use_variants: false
+  aggregation: false
+- name: RetrieveDocumentsACS
+  type: python
+  source:
+    type: code
+    path: RetrieveDocumentsACS.py
+  inputs:
+    searchConnection: acs_connection
+    embeddingModelConnection: aoai_connection
+    embeddingModelName: text-embedding-ada-002
+    queries: ${inputs.query}
+    indexName: rag_prop_j_3
+    topK: 5
+    vectorColName: Embedding
+    filterCol: ${QueryParser.output}
+  aggregation: false
 - name: FormatRetrievedDocuments
   type: python
   source:
@@ -94,18 +91,3 @@ nodes:
   inputs:
     reply: ${DetermineReply.output}
   use_variants: false
-- name: RetrieveDocumentsACS
-  type: python
-  source:
-    type: code
-    path: RetrieveDocumentsACS.py
-  inputs:
-    searchConnection: acs_connection
-    embeddingModelConnection: aoai_connection
-    embeddingModelName: text-embedding-ada-002
-    queries: ${inputs.query}
-    indexName: rag_prop_j_3
-    topK: 5
-    vectorColName: Embedding
-    filterCol: ${ExtractIntent.output}
-  aggregation: false
