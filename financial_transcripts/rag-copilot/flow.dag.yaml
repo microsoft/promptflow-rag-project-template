@@ -31,6 +31,7 @@ nodes:
     path: QueryParser.py
   inputs:
     query: ${inputs.query}
+    conversation: ${inputs.chat_history}
   aggregation: false
 - name: RetrieveDocumentsACS
   type: python
