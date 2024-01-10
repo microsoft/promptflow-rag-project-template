@@ -1,0 +1,100 @@
+id: template_chat_flow
+name: Template Chat Flow
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  chat_history:
+    type: list
+    default: []
+    is_chat_input: false
+    is_chat_history: true
+  query:
+    type: string
+    default: ' "What is the growth rate of Azure ML revenue in FY23Q1?'
+    is_chat_input: true
+  config:
+    type: object
+    default:
+      TOP_K: 5
+  TOP_K:
+    type: int
+    default: 5
+outputs:
+  reply:
+    type: string
+    reference: ${FormatReply.output}
+    is_chat_output: true
+  fetched_docs:
+    type: string
+    reference: ${FormatRetrievedDocuments.output}
+  filter:
+    type: string
+    reference: ${QueryParser.output}
+nodes:
+- name: QueryParser
+  type: python
+  source:
+    type: code
+    path: QueryParser.py
+  inputs:
+    query: ${inputs.query}
+  aggregation: false
+- name: RetrieveDocumentsACS
+  type: python
+  source:
+    type: code
+    path: RetrieveDocumentsACS.py
+  inputs:
+    searchConnection: acs_connection
+    embeddingModelConnection: aoai_connection
+    embeddingModelName: text-embedding-ada-002
+    queries: ${inputs.query}
+    indexName: rag_prop_j_3
+    topK: ${inputs.TOP_K}
+    vectorColName: Embedding
+    filterCol: ${QueryParser.output}
+  aggregation: false
+- name: FormatRetrievedDocuments
+  type: python
+  source:
+    type: code
+    path: FormatRetrievedDocuments.py
+  inputs:
+    docs: ${RetrieveDocumentsACS.output}
+    maxTokens: 3500
+  use_variants: false
+- name: FormatConversation
+  type: python
+  source:
+    type: code
+    path: FormatConversation.py
+  inputs:
+    history: ${inputs.chat_history}
+    maxTokens: 800
+  use_variants: false
+- name: DetermineReply
+  type: llm
+  source:
+    type: code
+    path: DetermineReply.jinja2
+  inputs:
+    deployment_name: gpt-35-turbo
+    temperature: 0
+    top_p: 1
+    max_tokens: 800
+    presence_penalty: 0
+    frequency_penalty: 0
+    conversation: ${FormatConversation.output}
+    documentation: ${FormatRetrievedDocuments.output}
+    user_query: ${inputs.query}
+  connection: aoai_connection
+  api: chat
+  use_variants: false
+- name: FormatReply
+  type: python
+  source:
+    type: code
+    path: FormatReply.py
+  inputs:
+    reply: ${DetermineReply.output}
+  use_variants: false
