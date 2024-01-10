@@ -10,8 +10,7 @@ inputs:
     is_chat_history: true
   query:
     type: string
-    default: ' "What is the growth rate of Azure revenue in Year 23, Quarter 2, and
-      Ticker MSFT?'
+    default: ' "What is the growth rate of Azure revenue in FY23, Q2, and Ticker MSFT?'
     is_chat_input: true
 outputs:
   reply:
