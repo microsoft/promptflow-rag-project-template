@@ -45,7 +45,7 @@ Once the run is completed, then you need to
 
 c. Steps for experimentation in vscode:
 
-1) Similar to step a.3 open the flow.dag.yaml file. Locate a prompt node and clone it. It will create a new variant and associated jinja file. Make the changes to the prompt in the jinja file. You may also make the changes to the open ai variables such as temperature in the cloned node in the flow.dag.yaml. You may create multiple variants for clonable nodes. Then save the file. 
+1) Similar to step a.3 open the flow.dag.yaml file. Locate a prompt node and clone it. It will create a new variant and associated jinja file. Make the changes to the prompt in the jinja file. You may also make the changes to the openai variables such as temperature in the cloned node in the flow.dag.yaml. You may create multiple variants for clonable nodes. Then save the file. 
 2) Finally, go through all the steps for the batch evaluations again to obtain evaluations for all the variants and compare the results. 
 
 d. Steps for batch experimentation using python SDK:
