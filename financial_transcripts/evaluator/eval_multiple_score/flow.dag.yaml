@@ -14,6 +14,9 @@ inputs:
   context:
     type: string
     default: '["More than 8,500 Arc customers, more than double the number a year ago"]'
+  log_params:
+    type: object
+    default: {}
 outputs:
   llm_similarity:
     type: string
