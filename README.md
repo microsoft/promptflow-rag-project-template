@@ -16,7 +16,7 @@ Python 3.9 or later,  VSCode, PromptFlow for VSCode extension
 a. steps to run rag app locally in your vscode:
 
 1) Set up your dev environment:
-a) Follow prompt flow documentation to set up your promptflow python env:
+Follow prompt flow documentation to set up your promptflow python env:
 https://microsoft.github.io/promptflow/how-to-guides/quick-start.html
 Preferably, use the environment.yaml file at the root directory to install all the dependancies needed to run the samples.
 
