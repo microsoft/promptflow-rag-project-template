@@ -19,8 +19,8 @@ connection = CustomConnection(
     # Secrets is a required field for custom connection
     secrets={"my_key": client.get_secret("COSMOS-DB-KEY").value},
     configs={
-        "endpoint": config["COSMOS_DB_API_ENDPOINT"],
-        "AZURE_COSMOSDB_MONGODB_URI": config["COSMOS_DB_MONGODB_URI"],}
+        "endpoint": client.get_secret("COSMOS_DB_API_ENDPOINT").value,
+        "AZURE_COSMOSDB_MONGODB_URI": client.get_secret("COSMOS_DB_MONGODB_URI").value,}
 )
 
 # Create the connection, note that all secret values will be scrubbed in the returned result
