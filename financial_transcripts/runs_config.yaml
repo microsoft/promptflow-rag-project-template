@@ -1,6 +1,6 @@
 Run1:
   maxTokens: 3500
-  topK: 3
+  topK: 1
 Run2:
   maxTokens: 3500
-  topK: 5
+  topK: 3
