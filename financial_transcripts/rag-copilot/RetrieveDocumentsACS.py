@@ -30,7 +30,6 @@ def get_query_embedding(query, endpoint, api_key, api_version, embedding_model_d
 @tool
 def acs_retriever(queries: str, searchConnection: CognitiveSearchConnection, indexName: str, topK: int, embeddingModelConnection: AzureOpenAIConnection, embeddingModelName: str, vectorColName: str, filterCol):
     embeddingModelName = embeddingModelName if embeddingModelName != None else None
-
     search_client = SearchClient(
         endpoint=searchConnection["api_base"],
         index_name=indexName,
