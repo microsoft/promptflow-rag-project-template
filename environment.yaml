@@ -28,3 +28,4 @@ dependencies:
     - promptflow-tools==1.0.1
     - black
     - black[jupyter]
+    - azure-keyvault==4.2.0
