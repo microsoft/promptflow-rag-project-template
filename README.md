@@ -51,6 +51,9 @@ c. Steps for experimentation in vscode:
 d. Steps for batch experimentation using python SDK:
 1) Open batchRunEvaluations.ipynb notebook in the financial transcripts folder and run through cells. Note: to setup the configs for the batch experimentation runs, you may modify run_config.yaml file for the last section in the notebook. 
 
+## Developer guide
+For any contributions, please make sure to check the Python formatting with Black formatter. 
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
