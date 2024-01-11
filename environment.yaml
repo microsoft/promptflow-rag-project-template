@@ -26,3 +26,5 @@ dependencies:
     - pydantic==1.10.11
     - promptflow==1.2.0
     - promptflow-tools==1.0.1
+    - black
+    - black[jupyter]
