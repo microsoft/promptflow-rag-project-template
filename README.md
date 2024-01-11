@@ -30,6 +30,7 @@ b. Steps for batch evaluation in vscode:
 2) Click batch run 
 3) When selecting input source, choose evalset.csv.
 4) Then choose the data mapping on the run yaml file. 
+You may either delete topK and maxTokens to use default values or provide integers for the desired values. Do not select them from data mapping as they will not be available
 5) The click run on the yaml file. 
 Once the run is completed, then you need to
 6) Go to evaluator directory and choose one of the folders and open the flow.dag.yaml file. Note that each folder presents one or many evaluation metrics.   
