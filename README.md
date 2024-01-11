@@ -1,17 +1,30 @@
-# copilot rag samples 
+# Promptflow rag samples 
 
 This repo is a collection of samples on using promptflow and azure ai for development and evaluation of rag applications. 
-To run each sample go the specific folder. In this case, let me walk you through the financial_transcript sample. Please go to the folder and follow the instructions for running a rag app locally and performing evaluations. 
+To run each sample go the specific folder. 
 
-a. steps to run rag app locally:
+### Prerequisites
+Before you begin, ensure that you have the following installed on your machine:
 
-1) Follow prompt flow documentation to set up your promptflow python env:
+Python 3.9 or later,  VSCode, PromptFlow for VSCode extension
+
+## Example walkthrough: RAG on financial transcripts sample 
+
+
+### Steps
+
+a. steps to run rag app locally in your vscode:
+
+1) Set up your dev environment:
+a) Follow prompt flow documentation to set up your promptflow python env:
 https://microsoft.github.io/promptflow/how-to-guides/quick-start.html
-2) Create connections for ACS, AOAI, etc by running python code in connections directory. 
-3) Go to rag-copilot directory, open flow.dag.yaml, then choose the connections that you have created. Build locally to deploy the app and interact with the bot in your local environment. 
-Note: the assumption is that the search index has previously been created. 
+Preferably, use the environment.yaml file at the root directory to install all the dependancies needed to run the samples.
 
-b. Steps for batch evaluation:
+2) Create connections for ACS, AOAI, etc by running python code in connections directory. For this step you will need to have all your keys in a '.env' file in the connections folder. 
+3) Go to rag-copilot directory, open flow.dag.yaml, then choose the connections that you have created. Build locally to deploy the app and interact with the bot in your local environment. 
+Note: the assumption is that the search index has previously been created. if not, you may go through the notebooks in the preprocessing folder to create a search index. 
+
+b. Steps for batch evaluation in vscode:
 
 1) Go to rag-copilot directory, open flow.dag.yaml
 2) Click batch run 
@@ -21,18 +34,21 @@ b. Steps for batch evaluation:
 Once the run is completed, then you need to
 6) Go to evaluator directory and choose one of the folders and open the flow.dag.yaml file. Note that each folder presents one or many evaluation metrics.   
 7) Click the batch run to start an evaluation flow. 
-8) when prompted, chose "existing run" since we are going to use the results of the main rag flow for the evaluation flow. 
-9) Choose the run in step 1 of the evaluation 
+8) when prompted, choose "existing run" since we are going to use the results of the main rag flow for the evaluation flow. 
+9) Choose the run in step 5 of the evaluation 
 10) This will create a run yaml file. You need to uncomment the data to be able to chose the evalset.csv again. You may need to use some columns such as ground truth answers. 
 11) Choose the column mapping for the necessary inputs.
 12) Note the name of the output file in your terminal.
 13) Click on the promptflow icon on the left ribbon of vscode
 14) Go to "Batch Run History" section and choose your recent run(s), then click on the Visualize.
 
-Steps for experimentation:
+c. Steps for experimentation in vscode:
 
 1) Similar to step a.3 open the flow.dag.yaml file. Locate a prompt node and clone it. It will create a new variant and associated jinja file. Make the changes to the prompt in the jinja file. You may also make the changes to the open ai variables such as temperature in the cloned node in the flow.dag.yaml. You may create multiple variants for clonable nodes. Then save the file. 
 2) Finally, go through all the steps for the batch evaluations again to obtain evaluations for all the variants and compare the results. 
+
+d. Steps for batch experimentation using python SDK:
+1) Open batchRunEvaluations.ipynb notebook in the financial transcripts folder and run through cells. Note: to setup the configs for the batch experimentation runs, you may modify run_config.yaml file for the last section in the notebook. 
 
 ## Contributing
 
