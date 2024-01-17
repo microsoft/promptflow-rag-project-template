@@ -2,7 +2,7 @@ from promptflow import tool
 from promptflow.connections import AzureOpenAIConnection
 from promptflow.connections import CognitiveSearchConnection
 from azure.search.documents import SearchClient
-from azure.search.documents.models import Vector
+from azure.search.documents.models import VectorizedQuery
 import requests
 from azure.core.credentials import AzureKeyCredential
 import pdb
@@ -44,14 +44,14 @@ def acs_retriever(queries: str, searchConnection: CognitiveSearchConnection, ind
         embedding_model_deployment=embeddingModelName
     )[0]
 
-    vector = Vector(value=queryEmbedding, k=topK, fields=vectorColName)
+    vector_query = VectorizedQuery(vector=queryEmbedding, k_nearest_neighbors=topK, fields=vectorColName)
         
     filter_str = " and ".join(f"({key} eq '{value}')" for key, value in filterCol.items())
     filter_str = f"({filter_str})"
         
     results = search_client.search(
         search_text=None,
-        vectors=[vector],
+        vector_queries=[vector_query],
         select=["Ticker", "Chunk", "Quarter", "Year", "PageNumber", "LineNumber"],
         filter=filter_str,
         top=topK,

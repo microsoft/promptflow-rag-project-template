@@ -49,7 +49,7 @@ nodes:
     embeddingModelConnection: aoai_connection
     embeddingModelName: text-embedding-ada-002
     queries: ${inputs.query}
-    indexName: msft-transcripts
+    indexName: msft-transcripts-1
     vectorColName: Embedding
     filterCol: ${QueryParser.output}
     topK: ${inputs.topK}
