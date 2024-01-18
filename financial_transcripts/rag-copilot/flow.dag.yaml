@@ -10,7 +10,7 @@ inputs:
     is_chat_history: true
   query:
     type: string
-    default: ' "What is the growth rate of Azure ML revenue in FY23Q1?'
+    default: " What is the growth rate of Azure ML revenue in FY23Q1?"
     is_chat_input: true
   topK:
     type: int
@@ -18,6 +18,9 @@ inputs:
   maxTokens:
     type: int
     default: 3500
+  searchType:
+    type: string
+    default: filter_vector
 outputs:
   reply:
     type: string
@@ -53,6 +56,7 @@ nodes:
     vectorColName: Embedding
     filterCol: ${QueryParser.output}
     topK: ${inputs.topK}
+    searchType: ${inputs.searchType}
   aggregation: false
 - name: FormatRetrievedDocuments
   type: python
@@ -107,3 +111,4 @@ nodes:
     filter: ${QueryParser.output}
     topK: ${inputs.topK}
     maxTokens: ${inputs.maxTokens}
+    searchType: ${inputs.searchType}

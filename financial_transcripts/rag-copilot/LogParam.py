@@ -5,9 +5,5 @@ from promptflow import tool
 # Adding type to arguments and return value will help the system show the types properly
 # Please update the function name/signature per need
 @tool
-def my_python_tool(filter: object, topK: int, maxTokens: int) -> object:
-    config = {}
-    config['filter'] = filter
-    config['topK'] = topK
-    config['maxTokens'] = maxTokens
-    return config
+def log_param(filter: object, topK: int, maxTokens: int, searchType: str) -> object:
+    return locals()
