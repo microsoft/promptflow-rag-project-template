@@ -27,7 +27,8 @@ KEY_VAULT_NAME=""
 > NOTE: Our convention is that variables from keyvault have a (-), but from a `.env` has a (_) like `OPENAI-API-BASE` vs. `OPENAI_API_BASE`
 3) cd to the `preprocessing/` folder and start running the preprocessing notebooks to create a new vector database index if you haven't done so already.
 4) Create connections for ACS, AOAI, etc by running python code in `connections/` directory.
-5) Go to `rag-copilot` directory, open flow.dag.yaml, then choose the connections that you have created. Build locally to deploy the app and interact with the bot in your local environment. 
+5) Go to `rag-copilot` directory, open flow.dag.yaml visually, then choose the connections that you have created in any specific nodes that are complaining with a warning.
+6) Run or build locally to deploy the app and interact with the bot in your local environment. 
 
 b. Steps for batch evaluation in vscode:
 
