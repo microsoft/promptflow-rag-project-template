@@ -11,6 +11,9 @@ inputs:
   reply:
     type: string
     default: Over 8500 Arc customers. This is more than double the number a year ago
+  log_params:
+    type: object
+    default: {}
 outputs:
   llm_similarity:
     type: string

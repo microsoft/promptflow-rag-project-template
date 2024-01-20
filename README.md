@@ -18,16 +18,18 @@ a. steps to run rag app locally in your vscode:
 1) Set up your dev environment:
 Install miniconda for your environment, here is the link for [windows miniconda](https://docs.conda.io/projects/miniconda/en/latest/index.html). Run the following command
 `conda env update -f environment.yaml`
-2) Make a copy of `.env.sample` and rename it to `.env`. You can use this file to decide to use keys from this file or azure keyvault. The keys will be used for preprocessing in step 3 and creating connections for promptflow in step 4.
+2) Install [azure-cli](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli) if you haven't already. Do `az-login`. 
+3) Make a copy of `.env.sample` and rename it to `.env`. You can use this file to decide to use keys from this file or azure keyvault. The keys will be used for preprocessing in step 3 and creating connections for promptflow in step 4.
 ```bash
 # Use .env or keyvault. ENV or empty = .env, KEYVAULT = keyvault
 KEYS_FROM="ENV"
 KEY_VAULT_NAME=""
 ```
 > NOTE: Our convention is that variables from keyvault have a (-), but from a `.env` has a (_) like `OPENAI-API-BASE` vs. `OPENAI_API_BASE`
-3) cd to the `preprocessing/` folder and start running the preprocessing notebooks to create a new vector database index if you haven't done so already.
-4) Create connections for ACS, AOAI, etc by running python code in `connections/` directory.
-5) Go to `rag-copilot` directory, open flow.dag.yaml, then choose the connections that you have created. Build locally to deploy the app and interact with the bot in your local environment. 
+4) cd to the `preprocessing/` folder and start running the preprocessing notebooks to create a new vector database index if you haven't done so already.
+5) Create connections for ACS, AOAI, etc by running python code in `connections/` directory.
+6) Go to `rag-copilot` directory, open flow.dag.yaml visually, then choose the connections that you have created in any specific nodes that are complaining with a warning.
+7) Run or build locally to deploy the app and interact with the bot in your local environment. 
 
 b. Steps for batch evaluation in vscode:
 

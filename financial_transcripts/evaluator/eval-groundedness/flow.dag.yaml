@@ -224,6 +224,9 @@ inputs:
       approaches have been generalized to coarser granularities, such as
       sentence embed- dings (Kiros et al., 2015; Logeswaran and Lee, 2018) or
       paragraph embeddings (Le and Mikolov, 2014). "]'
+  log_params:
+    type: string
+    default: "{}"
 outputs:
   groundedness:
     type: string
