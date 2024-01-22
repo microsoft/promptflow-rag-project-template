@@ -12,15 +12,30 @@ inputs:
     type: string
     default: " What is the growth rate of Azure ML revenue in FY23Q1?"
     is_chat_input: true
+    is_chat_history: false
   topK:
     type: int
     default: 5
+    is_chat_history: false
+    is_chat_input: false
   maxTokens:
     type: int
     default: 3500
+    is_chat_history: false
+    is_chat_input: false
   searchType:
     type: string
     default: filter_vector
+    is_chat_history: false
+    is_chat_input: false
+  fetched_docs:
+    type: object
+    default: {}
+    is_chat_history: false
+  already_retrieved:
+    type: bool
+    default: false
+    is_chat_history: false
 outputs:
   reply:
     type: string
@@ -32,6 +47,9 @@ outputs:
   log_params:
     type: string
     reference: ${LogParam.output}
+  already_retrieved:
+    type: string
+    reference: ${KeepContext.output}
 nodes:
 - name: QueryParser
   type: python
@@ -41,7 +59,11 @@ nodes:
   inputs:
     query: ${inputs.query}
     conversation: ${inputs.chat_history}
+    already_retrieved: ${inputs.already_retrieved}
   aggregation: false
+  activate:
+    when: ${inputs.already_retrieved}
+    is: false
 - name: RetrieveDocumentsACS
   type: python
   source:
@@ -112,3 +134,10 @@ nodes:
     topK: ${inputs.topK}
     maxTokens: ${inputs.maxTokens}
     searchType: ${inputs.searchType}
+- name: KeepContext
+  type: python
+  source:
+    type: code
+    path: KeepContext.py
+  inputs:
+    retrieved_docs: ${FormatRetrievedDocuments.output}
