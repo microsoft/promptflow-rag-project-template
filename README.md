@@ -57,7 +57,8 @@ d. Steps for batch experimentation using python SDK:
 1) Open batchRunEvaluations.ipynb notebook in the financial transcripts folder and run through cells. Note: to setup the configs for the batch experimentation runs, you may modify run_config.yaml file for the last section in the notebook. 
 
 e. Steps for docker deployment:
-1) Use the command below to recreate your llm app as a docker format. Assuming you are at the sample directory, run the following:
+1) Change directory to sample folder
+2) Use the command below to recreate your llm app as a docker format:
 ```bash
 pf flow build --source ./rag-copilot --output deploy --format docker
 ```
@@ -69,7 +70,7 @@ note that deploy folder is where the llm app is packaged.
 
 4) Build the docker image file:
 ```docker build deploy -t rag-app-serve```
-5) Run with docker run
+5) Run with docker run. Make sure to add secret values in the command below:
 
 ```
 docker run -p 8080:8080 -e AOAI_CONNECTION_API_KEY=<secret-value> -e ACS_CONNECTION_API_KEY=<secret-value> rag-app-serve
