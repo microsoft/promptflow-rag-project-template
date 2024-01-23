@@ -60,7 +60,9 @@ d. Steps for batch experimentation using python SDK:
 
 
 e. Steps for docker deployment:
+
 pre-requisite: Docker. You can get docker from [here](https://www.docker.com/get-started/).
+
 1) Change directory to sample folder
 2) Use the command below to recreate your llm app as a docker format:
 ```bash
