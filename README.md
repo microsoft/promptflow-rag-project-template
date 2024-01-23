@@ -79,7 +79,8 @@ pf flow build --source ./rag-copilot --output deploy --format docker
 ```
 docker run -p 8080:8080 -e AOAI_CONNECTION_API_KEY=<secret-value> -e ACS_CONNECTION_API_KEY=<secret-value> rag-app-serve
 ```
-note the port mapping and change if needed. 
+>>>note the port mapping and change if needed. 
+
 7) Finally inspect the end point. 
 In you local machine, you may inspect your app in a browser: http://localhost:8080/
 
