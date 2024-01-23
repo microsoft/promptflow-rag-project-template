@@ -39,7 +39,7 @@ inputs:
 outputs:
   reply:
     type: string
-    reference: ${FormatReply.output}
+    reference: ${GenerateResult.output}
     is_chat_output: true
   fetched_docs:
     type: string
@@ -59,7 +59,6 @@ nodes:
   inputs:
     query: ${inputs.query}
     conversation: ${inputs.chat_history}
-    already_retrieved: ${inputs.already_retrieved}
   aggregation: false
   activate:
     when: ${inputs.already_retrieved}
@@ -80,6 +79,9 @@ nodes:
     topK: ${inputs.topK}
     searchType: ${inputs.searchType}
   aggregation: false
+  activate:
+    when: ${inputs.already_retrieved}
+    is: false
 - name: FormatRetrievedDocuments
   type: python
   source:
@@ -89,6 +91,9 @@ nodes:
     docs: ${RetrieveDocumentsACS.output}
     maxTokens: ${inputs.maxTokens}
   use_variants: false
+  activate:
+    when: ${inputs.already_retrieved}
+    is: false
 - name: FormatConversation
   type: python
   source:
@@ -116,6 +121,9 @@ nodes:
   connection: aoai_connection
   api: chat
   use_variants: false
+  activate:
+    when: ${inputs.already_retrieved}
+    is: "false"
 - name: FormatReply
   type: python
   source:
@@ -124,16 +132,9 @@ nodes:
   inputs:
     reply: ${DetermineReply.output}
   use_variants: false
-- name: LogParam
-  type: python
-  source:
-    type: code
-    path: LogParam.py
-  inputs:
-    filter: ${QueryParser.output}
-    topK: ${inputs.topK}
-    maxTokens: ${inputs.maxTokens}
-    searchType: ${inputs.searchType}
+  activate:
+    when: ${inputs.already_retrieved}
+    is: "false"
 - name: KeepContext
   type: python
   source:
@@ -141,3 +142,29 @@ nodes:
     path: KeepContext.py
   inputs:
     retrieved_docs: ${FormatRetrievedDocuments.output}
+  activate:
+    when: ${inputs.already_retrieved}
+    is: false
+- name: ContinueReply
+  type: llm
+  source:
+    type: code
+    path: ContinueReply.jinja2
+  inputs:
+    deployment_name: gpt-35-turbo
+    conversation: ${FormatConversation.output}
+    context: ${inputs.fetched_docs}
+    user_query: ${inputs.query}
+  connection: aoai_connection
+  api: chat
+  activate:
+    when: ${inputs.already_retrieved}
+    is: true
+- name: GenerateResult
+  type: python
+  source:
+    type: code
+    path: GenerateResult.py
+  inputs:
+    determine_reply: ${FormatReply.output}
+    continue_reply: ${ContinueReply.output}
