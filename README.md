@@ -64,11 +64,6 @@ e. Steps for docker deployment:
 pre-requisite: Docker. You can get docker from [here](https://www.docker.com/get-started/).
 
 1) Change directory to sample folder (e.g. financial_transcripts)
-
-```
-cd financial_transcripts
-```
-
 2) Use the command below to recreate your llm app as a docker format:
 ```bash
 pf flow build --source ./rag-copilot --output deploy --format docker
@@ -79,8 +74,9 @@ pf flow build --source ./rag-copilot --output deploy --format docker
 
 4) Inspect the connection files in the 'deploy/connections' and double-check information such as api_base and api_version.
 
-5) Build the docker image file:
+5) Build the docker image file by running the following command in the `financial_transcipts/` folder.
 ```docker build deploy -t rag-app-serve```
+
 6) Run with docker run. Make sure to add secret values in the command below:
 
 ```
