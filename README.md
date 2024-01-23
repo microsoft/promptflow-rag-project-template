@@ -58,6 +58,32 @@ c. Steps for experimentation in vscode:
 d. Steps for batch experimentation using python SDK:
 1) Open batchRunEvaluations.ipynb notebook in the financial transcripts folder and run through cells. Note: to setup the configs for the batch experimentation runs, you may modify run_config.yaml file for the last section in the notebook. 
 
+
+e. Steps for docker deployment:
+pre-requisite: Docker. You can get docker from [here](https://www.docker.com/get-started/).
+1) Change directory to sample folder
+2) Use the command below to recreate your llm app as a docker format:
+```bash
+pf flow build --source ./rag-copilot --output deploy --format docker
+```
+>>>note that deploy folder is where the llm app is packaged. 
+
+3) Inspect the requirement.txt file in the 'deploy/flow' directory. If empty, please manually add all the python packages from the environment.yaml file located at the root directory.
+
+4) Inspect the connection files in the 'deploy/connections' and double-check information such as api_base and api_version.
+
+5) Build the docker image file:
+```docker build deploy -t rag-app-serve```
+6) Run with docker run. Make sure to add secret values in the command below:
+
+```
+docker run -p 8080:8080 -e AOAI_CONNECTION_API_KEY=<secret-value> -e ACS_CONNECTION_API_KEY=<secret-value> rag-app-serve
+```
+note the port mapping and change if needed. 
+7) Finally inspect the end point. 
+In you local machine, you may inspect your app in a browser: http://localhost:8080/
+
+
 ## Developer guide
 For any contributions, please make sure to check the Python formatting with Black formatter. 
 
