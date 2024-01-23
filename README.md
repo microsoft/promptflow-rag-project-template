@@ -66,7 +66,7 @@ pre-requisite: Docker. You can get docker from [here](https://www.docker.com/get
 ```bash
 pf flow build --source ./rag-copilot --output deploy --format docker
 ```
->>Note: the deploy folder is where the llm app is packaged. 
+>Note: the deploy folder is where the llm app is packaged. 
 
 3) Inspect the requirement.txt file in the 'deploy/flow' directory. If empty, please manually add all the python packages from the environment.yaml file located at the root directory.
 
@@ -79,7 +79,7 @@ pf flow build --source ./rag-copilot --output deploy --format docker
 ```
 docker run -p 8080:8080 -e AOAI_CONNECTION_API_KEY=<secret-value> -e ACS_CONNECTION_API_KEY=<secret-value> rag-app-serve
 ```
->>Note: check the port mapping and change if needed. 
+>Note: check the port mapping and change if needed. 
 
 7) Finally inspect the end point. 
 In you local machine, you may inspect your app in a browser: http://localhost:8080/
