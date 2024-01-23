@@ -6,7 +6,7 @@ To run each sample go the specific folder.
 ### Prerequisites
 Before you begin, ensure that you have the following installed on your machine:
 
-Python 3.9 or later,  VSCode, PromptFlow for VSCode extension
+Python 3.9 or later,  VSCode, PromptFlow for VSCode extension, Docker
 
 ## Example walkthrough: RAG on financial transcripts sample 
 
