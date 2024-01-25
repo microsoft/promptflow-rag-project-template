@@ -21,6 +21,9 @@ inputs:
   searchType:
     type: string
     default: filter_vector
+  indexName:
+    type: string
+    default: msft-transcripts-1
 outputs:
   reply:
     type: string
@@ -52,7 +55,7 @@ nodes:
     embeddingModelConnection: aoai_connection
     embeddingModelName: text-embedding-ada-002
     queries: ${inputs.query}
-    indexName: msft-transcripts-1
+    indexName: ${inputs.indexName}
     vectorColName: Embedding
     filterCol: ${QueryParser.output}
     topK: ${inputs.topK}
@@ -112,3 +115,4 @@ nodes:
     topK: ${inputs.topK}
     maxTokens: ${inputs.maxTokens}
     searchType: ${inputs.searchType}
+    indexName: ${inputs.indexName}
