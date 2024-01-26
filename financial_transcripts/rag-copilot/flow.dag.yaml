@@ -28,14 +28,6 @@ inputs:
     default: filter_vector
     is_chat_history: false
     is_chat_input: false
-  fetched_docs:
-    type: object
-    default: {}
-    is_chat_history: false
-  already_retrieved:
-    type: bool
-    default: false
-    is_chat_history: false
 outputs:
   reply:
     type: string
@@ -44,12 +36,6 @@ outputs:
   fetched_docs:
     type: string
     reference: ${FormatRetrievedDocuments.output}
-  log_params:
-    type: string
-    reference: ${LogParam.output}
-  already_retrieved:
-    type: string
-    reference: ${KeepContext.output}
 nodes:
 - name: QueryParser
   type: python
@@ -61,7 +47,7 @@ nodes:
     conversation: ${inputs.chat_history}
   aggregation: false
   activate:
-    when: ${inputs.already_retrieved}
+    when: ${CheckExistingContext.output}
     is: false
 - name: RetrieveDocumentsACS
   type: python
@@ -80,7 +66,7 @@ nodes:
     searchType: ${inputs.searchType}
   aggregation: false
   activate:
-    when: ${inputs.already_retrieved}
+    when: ${CheckExistingContext.output}
     is: false
 - name: FormatRetrievedDocuments
   type: python
@@ -92,7 +78,7 @@ nodes:
     maxTokens: ${inputs.maxTokens}
   use_variants: false
   activate:
-    when: ${inputs.already_retrieved}
+    when: ${CheckExistingContext.output}
     is: false
 - name: FormatConversation
   type: python
@@ -122,8 +108,8 @@ nodes:
   api: chat
   use_variants: false
   activate:
-    when: ${inputs.already_retrieved}
-    is: "false"
+    when: ${CheckExistingContext.output}
+    is: false
 - name: FormatReply
   type: python
   source:
@@ -133,17 +119,7 @@ nodes:
     reply: ${DetermineReply.output}
   use_variants: false
   activate:
-    when: ${inputs.already_retrieved}
-    is: "false"
-- name: KeepContext
-  type: python
-  source:
-    type: code
-    path: KeepContext.py
-  inputs:
-    retrieved_docs: ${FormatRetrievedDocuments.output}
-  activate:
-    when: ${inputs.already_retrieved}
+    when: ${CheckExistingContext.output}
     is: false
 - name: ContinueReply
   type: llm
@@ -153,12 +129,12 @@ nodes:
   inputs:
     deployment_name: gpt-35-turbo
     conversation: ${FormatConversation.output}
-    context: ${inputs.fetched_docs}
+    context: ${GetContextFromHistory.output}
     user_query: ${inputs.query}
   connection: aoai_connection
   api: chat
   activate:
-    when: ${inputs.already_retrieved}
+    when: ${CheckExistingContext.output}
     is: true
 - name: GenerateResult
   type: python
@@ -168,3 +144,22 @@ nodes:
   inputs:
     determine_reply: ${FormatReply.output}
     continue_reply: ${ContinueReply.output}
+    retrieved_docs: ${FormatRetrievedDocuments.output}
+    context: ${GetContextFromHistory.output}
+- name: CheckExistingContext
+  type: python
+  source:
+    type: code
+    path: CheckExistingContext.py
+  inputs:
+    history: ${inputs.chat_history}
+- name: GetContextFromHistory
+  type: python
+  source:
+    type: code
+    path: GetContextFromHistory.py
+  inputs:
+    history: ${inputs.chat_history}
+  activate:
+    when: ${CheckExistingContext.output}
+    is: true

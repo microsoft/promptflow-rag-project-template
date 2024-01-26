@@ -3,7 +3,7 @@ import re
 import pdb
 
 @tool
-def query_parser(query: str, conversation, already_retrieved):
+def query_parser(query: str, conversation: list):
     '''
     try:
         # Extract year

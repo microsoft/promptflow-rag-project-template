@@ -1,3 +1,4 @@
+
 from promptflow import tool
 
 
@@ -5,9 +6,5 @@ from promptflow import tool
 # Adding type to arguments and return value will help the system show the types properly
 # Please update the function name/signature per need
 @tool
-def keep_context(retrieved_docs: object) -> str:
-    if not retrieved_docs:
-        already_retrieved = False
-    else:
-        already_retrieved = True
-    return already_retrieved
+def get_context_from_history(history: list) -> str:
+    return history[-1]["outputs"]["reply"]["retrieved_docs"]
