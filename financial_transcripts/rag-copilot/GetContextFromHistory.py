@@ -7,4 +7,4 @@ from promptflow import tool
 # Please update the function name/signature per need
 @tool
 def get_context_from_history(history: list) -> str:
-    return history[-1]["outputs"]["reply"]["retrieved_docs"]
+    return history[-1]["outputs"]["fetched_docs"]

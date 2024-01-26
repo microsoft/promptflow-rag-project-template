@@ -11,7 +11,6 @@ def check_existing_context(history: list) -> str:
         return False
     else:
         try:
-            #retrieved_docs = history[-1]["outputs"]["reply"]["retrieved_docs"]
             retrieved_docs = history[-1]["outputs"]["fetched_docs"]
             already_retrieved = True
         except:

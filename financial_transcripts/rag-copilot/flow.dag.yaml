@@ -37,6 +37,13 @@ outputs:
     type: string
     reference: ${FormatRetrievedDocuments.output}
 nodes:
+- name: CheckExistingContext
+  type: python
+  source:
+    type: code
+    path: CheckExistingContext.py
+  inputs:
+    history: ${inputs.chat_history}
 - name: QueryParser
   type: python
   source:
@@ -46,9 +53,15 @@ nodes:
     query: ${inputs.query}
     conversation: ${inputs.chat_history}
   aggregation: false
-  activate:
-    when: ${CheckExistingContext.output}
-    is: false
+- name: ChatFlow
+  type: python
+  source:
+    type: code
+    path: ChatFlow.py
+  inputs:
+    check_existing_context: ${CheckExistingContext.output}
+    filter: ${QueryParser.output}
+    searchType: ${inputs.searchType}
 - name: RetrieveDocumentsACS
   type: python
   source:
@@ -66,8 +79,8 @@ nodes:
     searchType: ${inputs.searchType}
   aggregation: false
   activate:
-    when: ${CheckExistingContext.output}
-    is: false
+    when: ${ChatFlow.output}
+    is: new_retrieval
 - name: FormatRetrievedDocuments
   type: python
   source:
@@ -77,9 +90,6 @@ nodes:
     docs: ${RetrieveDocumentsACS.output}
     maxTokens: ${inputs.maxTokens}
   use_variants: false
-  activate:
-    when: ${CheckExistingContext.output}
-    is: false
 - name: FormatConversation
   type: python
   source:
@@ -108,8 +118,8 @@ nodes:
   api: chat
   use_variants: false
   activate:
-    when: ${CheckExistingContext.output}
-    is: false
+    when: ${ChatFlow.output}
+    is: new_retrieval
 - name: FormatReply
   type: python
   source:
@@ -119,8 +129,18 @@ nodes:
     reply: ${DetermineReply.output}
   use_variants: false
   activate:
-    when: ${CheckExistingContext.output}
-    is: false
+    when: ${ChatFlow.output}
+    is: new_retrieval
+- name: GetContextFromHistory
+  type: python
+  source:
+    type: code
+    path: GetContextFromHistory.py
+  inputs:
+    history: ${inputs.chat_history}
+  activate:
+    when: ${ChatFlow.output}
+    is: use_same_context
 - name: ContinueReply
   type: llm
   source:
@@ -134,8 +154,8 @@ nodes:
   connection: aoai_connection
   api: chat
   activate:
-    when: ${CheckExistingContext.output}
-    is: true
+    when: ${ChatFlow.output}
+    is: use_same_context
 - name: GenerateResult
   type: python
   source:
@@ -144,22 +164,3 @@ nodes:
   inputs:
     determine_reply: ${FormatReply.output}
     continue_reply: ${ContinueReply.output}
-    retrieved_docs: ${FormatRetrievedDocuments.output}
-    context: ${GetContextFromHistory.output}
-- name: CheckExistingContext
-  type: python
-  source:
-    type: code
-    path: CheckExistingContext.py
-  inputs:
-    history: ${inputs.chat_history}
-- name: GetContextFromHistory
-  type: python
-  source:
-    type: code
-    path: GetContextFromHistory.py
-  inputs:
-    history: ${inputs.chat_history}
-  activate:
-    when: ${CheckExistingContext.output}
-    is: true

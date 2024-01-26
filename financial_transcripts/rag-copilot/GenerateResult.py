@@ -6,13 +6,8 @@ from promptflow import tool
 # Adding type to arguments and return value will help the system show the types properly
 # Please update the function name/signature per need
 @tool
-def generate_result(determine_reply="", continue_reply="", retrieved_docs={}, context={}) -> str:
-    result = {}
+def generate_result(determine_reply="", continue_reply="") -> str:
     if determine_reply:
-        result["retrieved_docs"] = retrieved_docs
-        result["determine_reply"] = determine_reply
-        return result
+        return determine_reply
     else:
-        result["retrieved_docs"] = context
-        result["determine_reply"] = continue_reply
-        return result
+        return continue_reply
