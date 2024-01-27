@@ -116,3 +116,12 @@ nodes:
     maxTokens: ${inputs.maxTokens}
     searchType: ${inputs.searchType}
     indexName: ${inputs.indexName}
+- name: VolatileMemory
+  type: python
+  source:
+    type: code
+    path: InitSKMemory.py
+  inputs:
+    modelConnection: aoai_connection
+    query: ${inputs.query}
+    reply: ${FormatReply.output}

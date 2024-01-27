@@ -1,4 +1,4 @@
-name: appliedaipf
+name: appliedaipfsk
 channels:
  - conda-forge
  - defaults
@@ -17,13 +17,14 @@ dependencies:
     - pandas==2.0.3
     - pgvector==0.2.0
     - langchain>=0.0.317
+    - semantic-kernel==0.4.7.dev0
     - docx2txt==0.8
     - docx2pdf==0.1.8
     - tiktoken==0.4.0
     - azure-ai-formrecognizer==3.3.0
     - azure-storage-blob==12.17.0
     - azure-search-documents==11.4.0
-    - pydantic==1.10.11
+    - pydantic==2.5.3
     - promptflow==1.2.0
     - promptflow-tools==1.0.1
     - black
