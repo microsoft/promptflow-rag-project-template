@@ -28,6 +28,9 @@ inputs:
     default: filter_vector
     is_chat_history: false
     is_chat_input: false
+  indexName:
+    type: string
+    default: msft-transcripts-1
 outputs:
   reply:
     type: string
@@ -36,6 +39,9 @@ outputs:
   fetched_docs:
     type: string
     reference: ${FormatRetrievedDocuments.output}
+  log_params:
+    type: string
+    reference: ${LogParam.output}
 nodes:
 - name: CheckExistingContext
   type: python
@@ -72,7 +78,7 @@ nodes:
     embeddingModelConnection: aoai_connection
     embeddingModelName: text-embedding-ada-002
     queries: ${inputs.query}
-    indexName: msft-transcripts-1
+    indexName: ${inputs.indexName}
     vectorColName: Embedding
     filterCol: ${QueryParser.output}
     topK: ${inputs.topK}
@@ -164,3 +170,15 @@ nodes:
   inputs:
     determine_reply: ${FormatReply.output}
     continue_reply: ${ContinueReply.output}
+    chat_flow: ${ChatFlow.output}
+- name: LogParam
+  type: python
+  source:
+    type: code
+    path: LogParam.py
+  inputs:
+    filter: ${QueryParser.output}
+    topK: ${inputs.topK}
+    maxTokens: ${inputs.maxTokens}
+    searchType: ${inputs.searchType}
+    indexName: ${inputs.indexName}
