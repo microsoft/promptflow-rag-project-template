@@ -43,7 +43,6 @@ nodes:
     path: QueryParser.py
   inputs:
     query: ${inputs.query}
-    conversation: ${inputs.chat_history}
   aggregation: false
 - name: RetrieveDocumentsACS
   type: python
@@ -61,6 +60,9 @@ nodes:
     topK: ${inputs.topK}
     searchType: ${inputs.searchType}
   aggregation: false
+  activate:
+    when: ${ChatFlow.output}
+    is: new_retrieval
 - name: FormatRetrievedDocuments
   type: python
   source:
@@ -70,6 +72,9 @@ nodes:
     docs: ${RetrieveDocumentsACS.output}
     maxTokens: ${inputs.maxTokens}
   use_variants: false
+  activate:
+    when: ${ChatFlow.output}
+    is: new_retrieval
 - name: FormatConversation
   type: python
   source:
@@ -97,6 +102,9 @@ nodes:
   connection: aoai_connection
   api: chat
   use_variants: false
+  activate:
+    when: ${ChatFlow.output}
+    is: new_retrieval
 - name: FormatReply
   type: python
   source:
@@ -105,6 +113,9 @@ nodes:
   inputs:
     reply: ${DetermineReply.output}
   use_variants: false
+  activate:
+    when: ${ChatFlow.output}
+    is: new_retrieval
 - name: LogParam
   type: python
   source:
@@ -116,7 +127,7 @@ nodes:
     maxTokens: ${inputs.maxTokens}
     searchType: ${inputs.searchType}
     indexName: ${inputs.indexName}
-- name: VolatileMemory
+- name: MemoryRetrieval
   type: python
   source:
     type: code
@@ -124,4 +135,21 @@ nodes:
   inputs:
     modelConnection: aoai_connection
     query: ${inputs.query}
+- name: ChatFlow
+  type: python
+  source:
+    type: code
+    path: ChatFlow.py
+  inputs:
+    filter: ${QueryParser.output}
+    searchType: ${inputs.searchType}
+    memory_dict: ${MemoryRetrieval.output}
+- name: MemoryUpdate
+  type: python
+  source:
+    type: code
+    path: PopulateMemory.py
+  inputs:
+    query: ${inputs.query}
     reply: ${FormatReply.output}
+    memory_dict: ${MemoryRetrieval.output}
