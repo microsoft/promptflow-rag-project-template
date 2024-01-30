@@ -27,11 +27,8 @@ inputs:
 outputs:
   reply:
     type: string
-    reference: ${FormatReply.output}
+    reference: ${GenerateResult.output}
     is_chat_output: true
-  fetched_docs:
-    type: string
-    reference: ${FormatRetrievedDocuments.output}
   log_params:
     type: string
     reference: ${LogParam.output}
@@ -151,5 +148,39 @@ nodes:
     path: PopulateMemory.py
   inputs:
     query: ${inputs.query}
-    reply: ${FormatReply.output}
+    reply: ${GenerateResult.output}
     memory_dict: ${MemoryRetrieval.output}
+- name: GenerateResult
+  type: python
+  source:
+    type: code
+    path: GenerateResult.py
+  inputs:
+    chat_flow: ${ChatFlow.output}
+    determine_reply: ${FormatReply.output}
+    continue_reply: ${ContinueReply.output}
+- name: ContinueReply
+  type: llm
+  source:
+    type: code
+    path: ContinueReply.jinja2
+  inputs:
+    deployment_name: gpt-35-turbo
+    conversation: ${MemoryRetrieval.output}
+    context: ${GetContextFromHistory.output}
+    user_query: ${inputs.query}
+  connection: aoai_connection
+  api: chat
+  activate:
+    when: ${ChatFlow.output}
+    is: use_same_context
+- name: GetContextFromHistory
+  type: python
+  source:
+    type: code
+    path: GetContextFromHistory.py
+  inputs:
+    memory_dict: ${MemoryRetrieval.output}
+  activate:
+    when: ${ChatFlow.output}
+    is: use_same_context
