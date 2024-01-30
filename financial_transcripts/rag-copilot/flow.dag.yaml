@@ -32,6 +32,9 @@ outputs:
   log_params:
     type: string
     reference: ${LogParam.output}
+  context:
+    type: string
+    reference: ${GetContextFromHistory.output}
 nodes:
 - name: QueryParser
   type: python

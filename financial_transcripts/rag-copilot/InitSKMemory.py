@@ -32,7 +32,7 @@ class SKMemoryWithInit(ToolProvider):
     # Adding type to arguments and return value will help the system show the types properly
     # Please update the function name/signature per need
     @tool
-    def call(self, query: str) -> str:
+    def call(self, query: str, context: str) -> str:
         result = asyncio.run(self.kernel.memory.search("conversation_{}".format(1), query))
         if len(result) == 0:
             return {

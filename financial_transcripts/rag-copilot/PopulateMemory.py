@@ -9,7 +9,7 @@ from semantic_kernel.connectors.ai.open_ai import (
 import asyncio
 import datetime
 
-async def populate_memory(kernel: sk.Kernel, num_history: int, query: str, reply: str) -> None:
+async def populate_memory(kernel: sk.Kernel, num_history: int, query: str, reply: str, context: str) -> None:
     await kernel.memory.save_information(
         collection="conversation_{}".format(num_history),
         id=datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S%z"),
@@ -20,6 +20,11 @@ async def populate_memory(kernel: sk.Kernel, num_history: int, query: str, reply
         id=datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S%z"),
         text=reply,
     )
+    await kernel.memory.save_information(
+        collection="conversation_{}".format(num_history),
+        id=datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S%z"),
+        text=context,
+    )
 
 # The inputs section will change based on the arguments of the tool function, after you save the code
 # Adding type to arguments and return value will help the system show the types properly
@@ -27,5 +32,6 @@ async def populate_memory(kernel: sk.Kernel, num_history: int, query: str, reply
 @tool
 def call(query: str, reply: str, memory_dict: {}) -> str:
     kernel = memory_dict["kernel"]
+    context = memory_dict["result"]
     num_history = 1
-    asyncio.run(populate_memory(kernel, num_history, query, reply))
+    asyncio.run(populate_memory(kernel, num_history, query, reply, context))
