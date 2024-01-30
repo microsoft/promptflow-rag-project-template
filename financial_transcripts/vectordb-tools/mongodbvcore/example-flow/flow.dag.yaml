@@ -5,7 +5,7 @@ inputs:
 outputs:
   out:
     type: list
-    reference: ${python_node_qnsw.output}
+    reference: ${Azure_CosmosDB_MongoDB_vCore_Vector_Search_ypz1.output}
 nodes:
 - name: vector_embedding
   type: python
@@ -16,17 +16,6 @@ nodes:
     connection: aoai_connection
     deployment_name: text-embedding-ada-002
     input: ${inputs.query}
-- name: python_node_qnsw
-  type: python
-  source:
-    type: code
-    path: python_node_qnsw.py
-  inputs:
-    query_embedding: ${vector_embedding.output}
-    db_name: testdb
-    collection_name: tescol
-    num_results: 3
-    uri: mongodb+srv://mongodb:1919Shattuck@appliedaimongodb.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000
 - name: Azure_CosmosDB_MongoDB_vCore_Vector_Search_ypz1
   type: python
   source:
