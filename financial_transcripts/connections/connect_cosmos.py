@@ -21,10 +21,10 @@ if config['KEYS_FROM'] == "KEYVAULT":
     connection = CustomConnection(
         name="cosmodb_connection", 
         # Secrets is a required field for custom connection
-        secrets={"my_key": client.get_secret("COSMOS-DB-KEY").value},
+        secrets={"my_key": client.get_secret("COSMOS-DB-API-KEY").value},
         configs={
-            "endpoint": client.get_secret("COSMOS_DB_API_ENDPOINT").value,
-            "AZURE_COSMOSDB_MONGODB_URI": client.get_secret("COSMOS_DB_MONGODB_URI").value,}
+            "endpoint": client.get_secret("COSMOS-DB-API-ENDPOINT").value,
+            "AZURE_COSMOSDB_MONGODB_URI": client.get_secret("COSMOS-DB-URI").value,}
     )
 else:
     print('.env was selected.')
