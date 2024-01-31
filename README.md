@@ -87,6 +87,8 @@ docker run -p 8080:8080 -e AOAI_CONNECTION_API_KEY=<secret-value> -e ACS_CONNECT
 7) Finally inspect the end point. 
 In you local machine, you may inspect your app in a browser: http://localhost:8080/
 
+## Alternative Azure Vector databases
+Microsft azure databases, such as cosmosdb mongodb vcore or postgres flex, also offer vector search capabilities that could be used in lieu of azure search. Please refer to vectordb-tools directory for the instructions.
 
 ## Developer guide
 For any contributions, please make sure to check the Python formatting with Black formatter. 
