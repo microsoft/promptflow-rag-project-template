@@ -4,13 +4,13 @@ from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential
 from dotenv import dotenv_values
 
-config = dotenv_values('../../.env')
+config = dotenv_values("../../.env")
 
-#Get a pf client to manage connections
+# Get a pf client to manage connections
 pf = PFClient()
 
-if config['KEYS_FROM'] == "KEYVAULT":
-    print('keyvault was selected.')
+if config["KEYS_FROM"] == "KEYVAULT":
+    print("keyvault was selected.")
     keyVaultName = config["KEY_VAULT_NAME"]
     KVUri = f"https://{keyVaultName}.vault.azure.net"
 
@@ -19,24 +19,27 @@ if config['KEYS_FROM'] == "KEYVAULT":
 
     # Initialize a custom connection object
     connection = CustomConnection(
-        name="cosmodb_connection", 
+        name="cosmodb_connection",
         # Secrets is a required field for custom connection
-        secrets={"my_key": client.get_secret("COSMOS-DB-API-KEY").value},
+        secrets={"my_key": ""},  # unsupported
         configs={
-            "endpoint": client.get_secret("COSMOS-DB-API-ENDPOINT").value,
-            "AZURE_COSMOSDB_MONGODB_URI": client.get_secret("COSMOS-DB-URI").value,}
+            "endpoint": "",  # unsupported
+            "AZURE_COSMOSDB_MONGODB_URI": client.get_secret(
+                "COSMOS-DB-MONGO-URI"
+            ).value,
+        },
     )
 else:
-    print('.env was selected.')
+    print(".env was selected.")
     # Initialize an AzureOpenAIConnection object
     connection = CustomConnection(
-        name="cosmodb_connection", 
+        name="cosmodb_connection",
         # Secrets is a required field for custom connection
-        secrets={"my_key": config["COSMOS_DB_API_KEY"]},
+        secrets={"my_key": ""},  # unsupported
         configs={
-            "endpoint": config["COSMOS_DB_API_ENDPOINT"],
-            "AZURE_COSMOSDB_MONGODB_URI": config["COSMOS_DB_URI"],
-        }
+            "endpoint": "",  # unsupported
+            "AZURE_COSMOSDB_MONGODB_URI": config["COSMOS_DB_MONGO_URI"],
+        },
     )
 
 # Create the connection, note that all secret values will be scrubbed in the returned result
