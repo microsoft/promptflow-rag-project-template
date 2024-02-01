@@ -21,9 +21,8 @@ if config["KEYS_FROM"] == "KEYVAULT":
     connection = CustomConnection(
         name="cosmodb_connection",
         # Secrets is a required field for custom connection
-        secrets={"my_key": ""},  # unsupported
+        secrets={"my_key": "DUMMY"},  # unsupported
         configs={
-            "endpoint": "",  # unsupported
             "AZURE_COSMOSDB_MONGODB_URI": client.get_secret(
                 "COSMOS-DB-MONGO-URI"
             ).value,
@@ -35,9 +34,8 @@ else:
     connection = CustomConnection(
         name="cosmodb_connection",
         # Secrets is a required field for custom connection
-        secrets={"my_key": ""},  # unsupported
+        secrets={"my_key": "DUMMY"},  # unsupported
         configs={
-            "endpoint": "",  # unsupported
             "AZURE_COSMOSDB_MONGODB_URI": config["COSMOS_DB_MONGO_URI"],
         },
     )

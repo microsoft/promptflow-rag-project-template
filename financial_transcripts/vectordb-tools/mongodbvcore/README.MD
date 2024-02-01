@@ -9,6 +9,8 @@ In order to use other azure db products such as cosmodb mongodb vcore, please fo
 ```
 python connect_cosmos.py
 ```
-Also, note that you need to whitelist your ip address to stablish connection to the database. 
+
+Also, note that you need to whitelist your ip address to establish connection to the database. 
+
 (3) In you flow.dag.yaml click + symbol and select the intended tool. Please use example-flow to get an idea of how vector search can be done using the tool, then incorporate it your main flow.dag.yaml file, which is located in rag-copilot folder.
 
