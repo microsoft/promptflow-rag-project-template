@@ -1,0 +1,29 @@
+inputs:
+  query:
+    type: string
+    default: '"Could you please list azure data products?"'
+outputs:
+  out:
+    type: list
+    reference: ${Azure_CosmosDB_MongoDB_vCore_Vector_Search_ypz1.output}
+nodes:
+- name: vector_embedding
+  type: python
+  source:
+    type: package
+    tool: promptflow.tools.embedding.embedding
+  inputs:
+    connection: aoai_connection
+    deployment_name: text-embedding-ada-002
+    input: ${inputs.query}
+- name: Azure_CosmosDB_MongoDB_vCore_Vector_Search_ypz1
+  type: python
+  source:
+    type: package
+    tool: pfazuredb.tools.mongodbvcore.vectorsearch
+  inputs:
+    connection: cosmodb_connection
+    db_name: earning_calls
+    collection_name: MSFTFY23Q1
+    num_results: 3
+    embeddings: ${vector_embedding.output}
