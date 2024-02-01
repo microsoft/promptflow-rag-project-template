@@ -1,4 +1,4 @@
-name: appliedaipf
+name: appliedaipfsk
 channels:
  - conda-forge
  - defaults
@@ -31,3 +31,4 @@ dependencies:
     - azure-keyvault==4.2.0
     - python-docx==1.1.0
     - unstructured==0.12.2
+    - semantic-kernel==0.4.7.dev0

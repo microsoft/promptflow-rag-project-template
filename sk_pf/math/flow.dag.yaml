@@ -1,0 +1,18 @@
+inputs:
+  input:
+    type: string
+    default: What is 2 plus 3?
+outputs:
+  reply:
+    type: string
+    reference: ${Planner.output}
+nodes:
+- name: Planner
+  type: python
+  source:
+    type: code
+    path: planner.py
+  inputs:
+    input: ${inputs.input}
+    deployment_name: gpt-35-turbo
+    modelConnection: aoai_connection
