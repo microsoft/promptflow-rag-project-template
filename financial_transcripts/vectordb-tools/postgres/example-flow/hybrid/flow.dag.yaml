@@ -23,8 +23,8 @@ nodes:
     tool: pfazuredb.tools.potgrespg.vectorsearch
   inputs:
     connection: postgres_connection
-    filter_text: id BETWEEN 2 and 5
+    filter_text: (FiscalYear in (23) and FiscalQuarter in (1))
     search_type: hybrid
-    table_name: food_reviews_vector_search
+    table_name: msft_transcript
     num_results: 3
     embeddings: ${vector_embedding.output}
