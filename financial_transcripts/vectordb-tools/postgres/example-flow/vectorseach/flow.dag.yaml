@@ -23,7 +23,7 @@ nodes:
     tool: pfazuredb.tools.potgrespg.vectorsearch
   inputs:
     connection: postgres_connection
-    table_name: food_reviews_vector_search
+    table_name: msft_transcript
     search_type: vector
     num_results: 3
     embeddings: ${vector_embedding.output}
