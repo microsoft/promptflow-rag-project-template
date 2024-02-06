@@ -20,7 +20,7 @@ def my_python_tool(
     modelConnection: AzureOpenAIConnection,
 ) -> str:
     # Initialize the kernel
-    kernel = sk.Kernel(log=sk.NullLogger())
+    kernel = sk.Kernel()
 
     kernel.add_chat_service(
         "chat_completion",
@@ -34,17 +34,17 @@ def my_python_tool(
     planner = SequentialPlanner(kernel=kernel)
 
     # Import the native functions
-    math_plugin = kernel.import_plugin(Math(), "MathPlugin")
+    math_plugin = kernel.import_skill(Math(), "MathPlugin")
 
     ask = "Use the available math functions to solve this word problem: " + input
 
-    plan = asyncio.run(planner.create_plan(ask))
+    plan = asyncio.run(planner.create_plan_async(goal=ask))
 
     # Execute the plan
-    result = asyncio.run(kernel.run(plan)).result
+    result = asyncio.run(plan.invoke_async())
 
     for index, step in enumerate(plan._steps):
-        print("Function: " + step.plugin_name + "." + step._function.name)
+        print("Function: " + step.skill_name + "." + step._function.name)
         print("Input vars: " + str(step.parameters.variables))
         print("Output vars: " + str(step._outputs))
     print("Result: " + str(result))
