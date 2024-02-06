@@ -14,5 +14,5 @@ After trying this [public sample](https://github.com/MicrosoftDocs/semantic-kern
 The plugins are native functions in the `plugins/` folder. They are a class that you specify a semantic kernel decorator for. We add the plugins to the kernel for the planner to decide from all the plugins with a "description" in the decorator.
 
 ```
-math_plugin = kernel.import_plugin(Math(), "MathPlugin")
+math_plugin = kernel.import_skill(Math(), "MathPlugin")
 ```
