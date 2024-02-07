@@ -23,7 +23,7 @@ nodes:
     tool: pfazuredb.tools.potgrespg.vectorsearch
   inputs:
     connection: postgres_connection
-    filter_text: (FiscalYear in (23) and FiscalQuarter in (1))
+    filter_text: (fiscalyear::int in (23) and fiscalquarter::int in (1))
     search_type: hybrid
     table_name: msft_transcript
     num_results: 3
