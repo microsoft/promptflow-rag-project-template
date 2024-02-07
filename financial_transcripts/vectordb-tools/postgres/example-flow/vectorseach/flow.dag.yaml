@@ -28,3 +28,4 @@ nodes:
     num_results: 3
     embeddings: ${vector_embedding.output}
     filter_text: none
+    vectorsearch_method: L2
