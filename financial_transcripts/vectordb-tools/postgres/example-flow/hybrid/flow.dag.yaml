@@ -1,0 +1,31 @@
+inputs:
+  query:
+    type: string
+    default: '"Could you please list azure data products?"'
+outputs:
+  out:
+    type: list
+    reference: ${Azure_Cosmosdb_Postgres_Vector_Search.output}
+nodes:
+- name: vector_embedding
+  type: python
+  source:
+    type: package
+    tool: promptflow.tools.embedding.embedding
+  inputs:
+    connection: aoai_connection
+    deployment_name: text-embedding-ada-002
+    input: ${inputs.query}
+- name: Azure_Cosmosdb_Postgres_Vector_Search
+  type: python
+  source:
+    type: package
+    tool: pfazuredb.tools.potgrespg.vectorsearch
+  inputs:
+    connection: postgres_connection
+    filter_text: (fiscalyear::int in (23) and fiscalquarter::int in (1))
+    search_type: hybrid
+    table_name: msft_transcript
+    num_results: 3
+    embeddings: ${vector_embedding.output}
+    vectorsearch_method: Cosine
