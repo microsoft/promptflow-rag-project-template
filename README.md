@@ -1,6 +1,8 @@
 # Promptflow rag project template
 
-This repo is a sample on using promptflow and azure ai for development, evaluation, and deployment of rag applications. We also demostrate how to use other azure database offerings for vector searches. 
+The overall intention of this repo is to host end to end process for building rag appliactions, show casing development, evaluation, experimentation, and deployment aspects using promptflow, azure ai studio, and other azure data products. 
+
+The repo is currently hosting a single use-case on using promptflow and azure ai for development, evaluation, and deployment for building rag-based chatbot for Question and answering on finacnial transcripts . In this sample, we also demostrate how to use other azure database offerings for vector searches. 
 
 ### Prerequisites
 Before you begin, ensure that you have the following installed on your machine:
@@ -90,9 +92,12 @@ In you local machine, you may inspect your app in a browser: http://localhost:80
 Microsft azure databases, such as cosmosdb mongodb vcore or postgres flex, also offer vector search capabilities that could be used in lieu of azure search. Please refer to vectordb-tools directory for the instructions.
 
 ## Developer guide
+
 For any contributions, please make sure to check the Python formatting with Black formatter. 
 
 ## Contributing
+
+Let's Exapnd this repo to interesting and more complex rag-applications. 
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
