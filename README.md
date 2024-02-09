@@ -1,14 +1,13 @@
 # Promptflow rag project template
 
-This repo is a collection of samples on using promptflow and azure ai for development, evaluation, and deployment of rag applications. 
-To run each sample go the specific folder. 
+This repo is a sample on using promptflow and azure ai for development, evaluation, and deployment of rag applications. We also demostrate how to use other azure database offerings for vector searches. 
 
 ### Prerequisites
 Before you begin, ensure that you have the following installed on your machine:
 
 Python 3.9 or later,  VSCode, PromptFlow for VSCode extension, Docker
 
-## Example walkthrough: RAG on financial transcripts sample 
+## Walkthrough: RAG on financial transcripts sample 
 
 
 ### Steps
