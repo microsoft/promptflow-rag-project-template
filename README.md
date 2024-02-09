@@ -1,8 +1,8 @@
 # Promptflow rag project template
 
-The overall intention of this repo is to host end to end process for building rag appliactions, show casing development, evaluation, experimentation, and deployment aspects using promptflow, azure ai studio, and other azure data products. 
+The overall intention of this repo is to host the end-to-end process for building RAG applications, showcasing development, evaluation, experimentation, and deployment aspects using PromptFlow, Azure AI Studio, and other Azure data products.
 
-The repo is currently hosting a single use-case on using promptflow and azure ai for development, evaluation, and deployment for building rag-based chatbot for Question and answering on finacnial transcripts . In this sample, we also demostrate how to use other azure database offerings for vector searches. 
+The repo is currently hosting a single use-case on using PromptFlow and Azure AI for development, evaluation, and deployment of a RAG-based chatbot for question and answering on financial transcripts. In this sample, we also demonstrate how to use other Azure database offerings for vector searches. 
 
 ### Prerequisites
 Before you begin, ensure that you have the following installed on your machine:
