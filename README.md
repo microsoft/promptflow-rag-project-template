@@ -1,4 +1,4 @@
-# Promptflow rag samples 
+# Promptflow rag project template
 
 This repo is a collection of samples on using promptflow and azure ai for development and evaluation of rag applications. 
 To run each sample go the specific folder. 
