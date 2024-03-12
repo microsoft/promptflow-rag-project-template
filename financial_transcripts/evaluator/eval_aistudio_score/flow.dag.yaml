@@ -1,0 +1,145 @@
+$schema: https://azuremlschemas.azureedge.net/promptflow/latest/Flow.schema.json
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  question:
+    type: string
+    default: How many Azure Arc customers does Microsoft currently have in Y23Q1?
+  answer:
+    type: string
+    default: More than 8,500 Arc customers, more than double the number a year ago
+  reply:
+    type: string
+    default: Over 8500 Arc customers. This is more than double the number a year ago
+  context:
+    type: string
+    default: '["More than 8,500 Arc customers, more than double the number a year ago"]'
+  log_params:
+    type: object
+    default: {}
+outputs:
+  relevance:
+    type: string
+    reference: ${parse_score1.output}
+  coherence:
+    type: string
+    reference: ${parse_score2.output}
+  fluency:
+    type: string
+    reference: ${parse_score3.output}
+  groundedness:
+    type: string
+    reference: ${parse_score4.output}
+  gpt_similarity:
+    type: string
+    reference: ${parse_score0.output}
+nodes:
+- name: gpt_similarity
+  type: llm
+  source:
+    type: code
+    path: gpt_similarity.jinja2
+  inputs:
+    deployment_name: gpt-4
+    model: gpt-4
+    max_tokens: 10
+    temperature: 0
+    answer: ${inputs.answer}
+    reply: ${inputs.reply}
+  connection: aoai_connection
+  api: chat
+- name: relevance
+  type: llm
+  source:
+    type: code
+    path: relevance.jinja2
+  inputs:
+    deployment_name: gpt-35-turbo
+    max_tokens: 10
+    question: ${inputs.question}
+    context: ${inputs.context}
+    answer: ${inputs.answer}
+  connection: aoai_connection
+  api: chat
+- name: coherence
+  type: llm
+  source:
+    type: code
+    path: coherence.jinja2
+  inputs:
+    deployment_name: gpt-4
+    max_tokens: 10
+    question: ${inputs.question}
+    answer: ${inputs.answer}
+  connection: aoai_connection
+  api: chat
+- name: fluency
+  type: llm
+  source:
+    type: code
+    path: fluency.jinja2
+  inputs:
+    max_tokens: 10
+    deployment_name: gpt-4
+    reply: ${inputs.reply}
+  connection: aoai_connection
+  api: chat
+- name: groundedness
+  type: llm
+  source:
+    type: code
+    path: groundedness.jinja2
+  inputs:
+    max_tokens: 10
+    context: ${inputs.context}
+    deployment_name: gpt-4
+    answer: ${inputs.answer}
+  connection: aoai_connection
+  api: chat
+- name: parse_score1
+  type: python
+  source:
+    type: code
+    path: parse_score1.py
+  inputs:
+    score: ${relevance.output}
+- name: parse_score2
+  type: python
+  source:
+    type: code
+    path: parse_score2.py
+  inputs:
+    score: ${coherence.output}
+- name: parse_score3
+  type: python
+  source:
+    type: code
+    path: parse_score3.py
+  inputs:
+    score: ${fluency.output}
+- name: parse_score4
+  type: python
+  source:
+    type: code
+    path: parse_score4.py
+  inputs:
+    score: ${groundedness.output}
+- name: parse_score0
+  type: python
+  source:
+    type: code
+    path: parse_score0.py
+  inputs:
+    score: ${gpt_similarity.output}
+- name: aggregation
+  type: python
+  source:
+    type: code
+    path: aggregate.py
+  inputs:
+    relevance_scores: ${parse_score1.output}
+    coherence_scores: ${parse_score2.output}
+    fluency_scores: ${parse_score3.output}
+    groundedness_scores: ${parse_score4.output}
+    gpt_similarity_scores: ${parse_score0.output}
+  aggregation: true
