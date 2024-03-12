@@ -45,7 +45,8 @@ nodes:
     max_tokens: 10
     temperature: 0
     answer: ${inputs.answer}
-    reply: ${inputs.reply}
+    question: ${inputs.question}
+    ground_truth: ${inputs.answer}
   connection: aoai_connection
   api: chat
 - name: relevance
@@ -81,7 +82,8 @@ nodes:
   inputs:
     max_tokens: 10
     deployment_name: gpt-4
-    reply: ${inputs.reply}
+    answer: ${inputs.answer}
+    question: ${inputs.question}
   connection: aoai_connection
   api: chat
 - name: groundedness
