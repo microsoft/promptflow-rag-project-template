@@ -21,7 +21,7 @@ def aggregate(relevance_scores: List[float], coherence_scores: list[float], flue
                           "count": 0}
 
     # Calculate average groundedness score for each variant
-    for i in range(len(gpt_similarity_scores)):
+    for i in range(len(groundedness_scores)):
         aggregated_results["relevance"] += relevance_scores[i]
         aggregated_results["coherence"] += coherence_scores[i]
         aggregated_results["fluency"] += fluency_scores[i]
