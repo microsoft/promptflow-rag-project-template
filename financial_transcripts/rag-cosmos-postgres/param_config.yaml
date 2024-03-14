@@ -1,0 +1,5 @@
+maxTokens: 3500
+searchType: hybrid
+tableName: msft_transcript
+topK: 3
+vectorSearchMethod: L2
