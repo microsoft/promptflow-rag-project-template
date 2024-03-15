@@ -29,12 +29,15 @@ KEY_VAULT_NAME=""
 > NOTE: Our convention is that variables from keyvault have a (-), but from a `.env` has a (_) like `OPENAI-API-BASE` vs. `OPENAI_API_BASE`
 4) cd to the `preprocessing/` folder and start running the preprocessing notebooks to create a new vector database index if you haven't done so already.
 5) Create connections for ACS, AOAI, etc by running python code in `connections/` directory.
-6) Go to `rag-copilot` directory, open flow.dag.yaml visually, then choose the connections that you have created in any specific nodes that are complaining with a warning.
+6) Go to `rag-<vector-search>` directory, open flow.dag.yaml visually, then choose the connections that you have created in any specific nodes that are complaining with a warning. 
+
+For vector search, you may use azure search, or native vector search capabilities of cosmosdb offerings such as postgres. Currently, we included complete flows for azure-search (previously azure cognitive search), cosmosdb mongodbvcore, and postgres as shown in rag-azure-search, rag-cosmos-mongo, and rag-cosmos-postgres directories, respectively. 
+
 7) Run or build locally to deploy the app and interact with the bot in your local environment. 
 
 b. Steps for batch evaluation in vscode:
 
-1) Go to rag-copilot directory, open flow.dag.yaml
+1) Go to `rag-<vector-search>` directory, open flow.dag.yaml. 
 2) Click batch run 
 3) When selecting input source, choose evalset.csv.
 4) Then choose the data mapping on the run yaml file. 
@@ -51,7 +54,7 @@ Once the run is completed, then you need to
 13) Click on the promptflow icon on the left ribbon of vscode
 14) Go to "Batch Run History" section and choose your recent run(s), then click on the Visualize.
 
-Note: You will find two yaml files in the 'rag-copilot' folder. The flow.dag.yaml is the main yaml file that orchestrates various app components, such as retreivals, llm calls, etc. In addition, you will find the hyperparameters of the flow inside the param_config.yaml. As an example, the changes you make to topK in param_config.yaml file will be reflected in the flow.dag.yaml at the run time. 
+Note: You will find two yaml files in the `rag-<vector-search>` directories. The flow.dag.yaml is the main yaml file that orchestrates various app components, such as retreivals, llm calls, etc. In addition, you will find the hyperparameters of the flow inside the param_config.yaml. As an example, the changes you make to topK in param_config.yaml file will be reflected in the flow.dag.yaml at the run time. 
 
 Known issue: In addition to end-to-end running and debugging, promptflow allows single node runs for tests and debugging. However, please be aware that node running on its own that depend on configloader node will not work today. 
 
@@ -61,7 +64,8 @@ c. Steps for experimentation in vscode:
 2) Finally, go through all the steps for the batch evaluations again to obtain evaluations for all the variants and compare the results. 
 
 d. Steps for batch experimentation using python SDK:
-1) Open batchRunEvaluations.ipynb notebook in the financial transcripts folder and run through cells. Note: to setup the configs for the batch experimentation runs, you may modify run_config.yaml file for the last section in the notebook. 
+1) Go to experimentation directory and chose the subdirectory based on your choice of vectorsearch services.   
+1) Open batchRunEvaluations.ipynb notebook and run through cells. Note: to setup the configs for the batch experimentation runs, you may modify run_config.yaml file for batch evaluations on several configurations as you may find in the last section of the notebook. 
 
 
 e. Steps for docker deployment:
@@ -71,8 +75,10 @@ pre-requisite: Docker. You can get docker from [here](https://www.docker.com/get
 1) Change directory to sample folder (e.g. financial_transcripts)
 2) Use the command below to recreate your llm app as a docker format:
 ```bash
-pf flow build --source ./rag-copilot --output deploy --format docker
+pf flow build --source ./rag-<vector-search> --output deploy --format docker
 ```
+>Note: replace vector-search with one of available search options: (1)azure-search (2)cosmos-mongo (3)cosmos-postgres
+
 >Note: the deploy folder is where the llm app is packaged. 
 
 3) Inspect the requirement.txt file in the 'deploy/flow' directory. If empty, please manually add all the python packages from the environment.yaml file located at the root directory.
