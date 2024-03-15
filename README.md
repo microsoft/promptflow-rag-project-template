@@ -51,6 +51,10 @@ Once the run is completed, then you need to
 13) Click on the promptflow icon on the left ribbon of vscode
 14) Go to "Batch Run History" section and choose your recent run(s), then click on the Visualize.
 
+Note: You will find two yaml files in the 'rag-copilot' folder. The flow.dag.yaml is the main yaml file that orchestrates various app components, such as retreivals, llm calls, etc. In addition, you will find the hyperparameters of the flow inside the param_config.yaml. As an example, the changes you make to topK in param_config.yaml file will be reflected in the flow.dag.yaml at the run time. 
+
+Known issue: In addition to end-to-end running and debugging, promptflow allows single node runs for tests and debugging. However, please be aware that node running on its own that depend on configloader node will not work today. 
+
 c. Steps for experimentation in vscode:
 
 1) Similar to step a.3 open the flow.dag.yaml file. Locate a prompt node and clone it. It will create a new variant and associated jinja file. Make the changes to the prompt in the jinja file. You may also make the changes to the openai variables such as temperature in the cloned node in the flow.dag.yaml. You may create multiple variants for cloneable nodes. Then save the file. 
