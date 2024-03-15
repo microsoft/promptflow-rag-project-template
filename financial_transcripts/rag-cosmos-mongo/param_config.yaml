@@ -1,4 +1,4 @@
+dbName: earning_calls
 maxTokens: 3500
 searchType: vector
-dbName: earning_calls
 topK: 3
