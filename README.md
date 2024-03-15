@@ -32,6 +32,10 @@ KEY_VAULT_NAME=""
 6) Go to `rag-copilot` directory, open flow.dag.yaml visually, then choose the connections that you have created in any specific nodes that are complaining with a warning.
 7) Run or build locally to deploy the app and interact with the bot in your local environment. 
 
+Note: You will find two yaml files in the 'rag-copilot' folder. The flow.dag.yaml is the main yaml file that orchestrates various app components, such as retreivals, llm calls, etc. In addition, you will find the hyperparameters of the flow inside the param_config.yaml. As an example, the changes you make to topK in param_config.yaml file will be reflected in the flow.dag.yaml at the run time. 
+
+Known issue: In addition to end-to-end running and debugging, promptflow allows single node runs for tests and debugging. However, please be aware that node running on its own that depend on configloader node will not work today. 
+
 b. Steps for batch evaluation in vscode:
 
 1) Go to rag-copilot directory, open flow.dag.yaml

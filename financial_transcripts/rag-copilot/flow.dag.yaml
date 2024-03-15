@@ -13,24 +13,6 @@ inputs:
     default: " What is the growth rate of Azure ML revenue in FY23Q1?"
     is_chat_input: true
     is_chat_history: false
-  topK:
-    type: int
-    default: 5
-    is_chat_history: false
-    is_chat_input: false
-  maxTokens:
-    type: int
-    default: 3500
-    is_chat_history: false
-    is_chat_input: false
-  searchType:
-    type: string
-    default: filter_vector
-    is_chat_history: false
-    is_chat_input: false
-  indexName:
-    type: string
-    default: msft-transcripts-1
 outputs:
   reply:
     type: string
@@ -43,6 +25,13 @@ outputs:
     type: string
     reference: ${LogParam.output}
 nodes:
+- name: ConfigLoader
+  type: python
+  source:
+    type: code
+    path: ConfigLoader.py
+  inputs:
+    config_yaml: param_config.yaml
 - name: CheckExistingContext
   type: python
   source:
@@ -67,7 +56,7 @@ nodes:
   inputs:
     check_existing_context: ${CheckExistingContext.output}
     filter: ${QueryParser.output}
-    searchType: ${inputs.searchType}
+    searchType: ${ConfigLoader.output.searchType}
 - name: RetrieveDocumentsACS
   type: python
   source:
@@ -78,11 +67,11 @@ nodes:
     embeddingModelConnection: aoai_connection
     embeddingModelName: text-embedding-ada-002
     queries: ${inputs.query}
-    indexName: ${inputs.indexName}
+    indexName: ${ConfigLoader.output.indexName}
     vectorColName: Embedding
     filterCol: ${QueryParser.output}
-    topK: ${inputs.topK}
-    searchType: ${inputs.searchType}
+    topK: ${ConfigLoader.output.topK}
+    searchType: ${ConfigLoader.output.searchType}
   aggregation: false
   activate:
     when: ${ChatFlow.output}
@@ -94,7 +83,7 @@ nodes:
     path: FormatRetrievedDocuments.py
   inputs:
     docs: ${RetrieveDocumentsACS.output}
-    maxTokens: ${inputs.maxTokens}
+    maxTokens: ${ConfigLoader.output.maxTokens}
   use_variants: false
 - name: FormatConversation
   type: python
@@ -178,7 +167,7 @@ nodes:
     path: LogParam.py
   inputs:
     filter: ${QueryParser.output}
-    topK: ${inputs.topK}
-    maxTokens: ${inputs.maxTokens}
-    searchType: ${inputs.searchType}
-    indexName: ${inputs.indexName}
+    topK: ${ConfigLoader.output.topK}
+    maxTokens: ${ConfigLoader.output.maxTokens}
+    searchType: ${ConfigLoader.output.searchType}
+    indexName: ${ConfigLoader.output.indexName}
