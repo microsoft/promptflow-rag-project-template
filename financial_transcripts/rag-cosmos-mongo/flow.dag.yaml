@@ -76,26 +76,7 @@ nodes:
     maxTokens: 800
   use_variants: false
 - name: DetermineReply
-  type: llm
-  source:
-    type: code
-    path: DetermineReply.jinja2
-  inputs:
-    deployment_name: gpt-35-turbo
-    temperature: 0
-    top_p: 1
-    max_tokens: 800
-    presence_penalty: 0
-    frequency_penalty: 0
-    conversation: ${FormatConversation.output}
-    documentation: ${FormatRetrievedDocuments.output}
-    user_query: ${inputs.query}
-  connection: aoai_connection
-  api: chat
-  use_variants: false
-  activate:
-    when: ${ChatFlow.output}
-    is: new_retrieval
+  use_variants: true
 - name: FormatReply
   type: python
   source:
@@ -179,3 +160,51 @@ nodes:
     path: CollectionFilter.py
   inputs:
     input1: ${QueryParser.output}
+node_variants:
+  DetermineReply:
+    default_variant_id: variant_0
+    variants:
+      variant_0:
+        node:
+          type: llm
+          source:
+            type: code
+            path: DetermineReply.jinja2
+          inputs:
+            deployment_name: gpt-35-turbo
+            temperature: 0
+            top_p: 1
+            max_tokens: 800
+            presence_penalty: 0
+            frequency_penalty: 0
+            conversation: ${FormatConversation.output}
+            documentation: ${FormatRetrievedDocuments.output}
+            user_query: ${inputs.query}
+          connection: aoai_connection
+          api: chat
+          use_variants: false
+          activate:
+            when: ${ChatFlow.output}
+            is: new_retrieval
+      variant_1:
+        node:
+          type: llm
+          source:
+            type: code
+            path: DetermineReply_variant_1.jinja2
+          inputs:
+            deployment_name: gpt-4
+            temperature: 0
+            top_p: 1
+            max_tokens: 800
+            presence_penalty: 0
+            frequency_penalty: 0
+            conversation: ${FormatConversation.output}
+            documentation: ${FormatRetrievedDocuments.output}
+            user_query: ${inputs.query}
+          connection: aoai_connection
+          api: chat
+          use_variants: false
+          activate:
+            when: ${ChatFlow.output}
+            is: new_retrieval
