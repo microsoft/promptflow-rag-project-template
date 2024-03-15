@@ -8,3 +8,8 @@ Run2:
   topK: 3
   searchType: hybrid
   tableName: msft_transcript
+Run3:
+  maxTokens: 3500
+  topK: 3
+  searchType: filter_vector
+  tableName: msft_transcript
