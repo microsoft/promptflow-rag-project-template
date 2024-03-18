@@ -19,7 +19,7 @@ if config["KEYS_FROM"] == "KEYVAULT":
 
     # Initialize a custom connection object
     connection = CustomConnection(
-        name="cosmodb_connection",
+        name="mongodb_connection",
         # Secrets is a required field for custom connection
         secrets={"my_key": "DUMMY"},  # unsupported
         configs={
@@ -32,7 +32,7 @@ else:
     print(".env was selected.")
     # Initialize an AzureOpenAIConnection object
     connection = CustomConnection(
-        name="cosmodb_connection",
+        name="mongodb_connection",
         # Secrets is a required field for custom connection
         secrets={"my_key": "DUMMY"},  # unsupported
         configs={
