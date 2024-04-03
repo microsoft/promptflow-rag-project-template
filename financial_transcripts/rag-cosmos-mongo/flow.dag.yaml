@@ -10,7 +10,7 @@ inputs:
     is_chat_history: true
   query:
     type: string
-    default: " What is the growth rate of Azure ML revenue in FY23Q2?"
+    default: What is the quarterly revenue of Microsoft Cloud in FY23Q1?
     is_chat_input: true
     is_chat_history: false
 outputs:
@@ -150,9 +150,11 @@ nodes:
   inputs:
     connection: cosmodb_connection
     db_name: ${ConfigLoader.output.dbName}
-    collection_name: ${CollectionFilter.output}
+    collection_name: ${ConfigLoader.output.colName}
     num_results: ${ConfigLoader.output.topK}
     embeddings: ${Embedding.output}
+    filter_query: ${CollectionFilter.output}
+    search_type: ${ConfigLoader.output.searchType}
 - name: CollectionFilter
   type: python
   source:
