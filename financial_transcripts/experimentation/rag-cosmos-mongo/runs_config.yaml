@@ -15,4 +15,4 @@ Run3:
   searchType: filter_vector
   dbName: earning_calls
   colName: transcript_filter_vector
-  topK: 3
+  topK: 5
