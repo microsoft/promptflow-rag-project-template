@@ -1,4 +1,5 @@
 dbName: earning_calls
+colName: transcript_filter_vector
 maxTokens: 3500
-searchType: vector
+searchType: filter_vector
 topK: 3
