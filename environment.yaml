@@ -31,4 +31,4 @@ dependencies:
     - azure-keyvault==4.2.0
     - python-docx==1.1.0
     - unstructured==0.12.2
-    - pf-azuredb==0.0.3
+    - pf-azuredb==0.0.4
