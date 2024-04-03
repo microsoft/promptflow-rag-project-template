@@ -7,4 +7,5 @@ from promptflow import tool
 # Please update the function name/signature per need
 @tool
 def my_python_tool(input1: str) -> str:
-    return f"MSFTFY{input1['Year']}Q{input1['Quarter']}"
+
+    return f'{{"$and":[{{"fiscal_quarter":{{"$in": ["{input1["Quarter"]}"]}}}}, {{"fiscal_year": {{"$in":["{input1["Year"]}"]}}}}]}}'
