@@ -167,6 +167,7 @@ nodes:
     embeddings: ${Embedding.output}
     vectorsearch_method: ${ConfigLoader.output.vectorSearchMethod}
     filter_text: ${QueryForFilter.output}
+    question: ${inputs.query}
 - name: Embedding
   type: python
   source:
