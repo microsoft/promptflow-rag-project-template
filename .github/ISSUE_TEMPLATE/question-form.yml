@@ -1,0 +1,24 @@
+name: General Question
+description: Ask a question
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filling out this question form!
+  - type: checkboxes
+    id: pre-question
+    attributes:
+      label: Question Validation
+      description: By submitting this form, you confirm that you have read the readme and also promptflow documentation for promptflow specific questions.  
+      options:
+        - label: I have searched both the prompt flow documentation and readme for an answer.
+          required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Ask your question here!
+    validations:
+      required: true
