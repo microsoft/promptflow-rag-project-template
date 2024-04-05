@@ -23,7 +23,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: logs or error messages
+    id: logs
     attributes:
       label: Relevant logs, tracebacks, messages, etc.
       description: Please copy-paste any relevant logs and/or error messages.
