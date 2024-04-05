@@ -1,0 +1,23 @@
+name: Feature/Sample Request
+description: Request a new feature (template)
+title: "[Feature Request]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request!
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature or sample Description
+      description: Describe the feature or sample you are requesting. 
+    validations:
+      required: true
+  - type: textarea
+    id: why-feature
+    attributes:
+      label: Reason
+      description: Why do you need the new feature/sample template? If possible describe your application. 
+    validations:
+      required: false
