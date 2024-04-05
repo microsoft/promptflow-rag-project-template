@@ -1,0 +1,28 @@
+name: Bug report
+description: Report a bug 
+title: "[Bug]"
+lables: ["bug report"]
+body: 
+  - type: markdown 
+    attributes:
+      value: |
+        Thank you for taking the time to file a bug report
+        Please complete the following form to ask us for help with your issue 
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      description: please confirm checking the following options. 
+      - label: I added a descriptive title
+      required: true 
+      - label: I am using dependancy versions in the environment.yaml file
+  - type: textarea
+    id: steps to reproduce 
+    validations: 
+      required: true 
+  - type: textarea
+    id: logs/error messages 
+    attribues: 
+      label: relevant logs, tracebacks, messages, etc ..
+      description: please copy paste any relevant logs and/or error messages. 
+      render: shell
