@@ -17,6 +17,7 @@ body:
         - label: I added a descriptive title
           required: true
         - label: I am using dependency versions in the environment.yaml file
+          required: true
   - type: textarea
     id: steps_to_reproduce
     validations:
