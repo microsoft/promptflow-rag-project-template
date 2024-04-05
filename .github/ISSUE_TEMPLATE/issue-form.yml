@@ -1,29 +1,29 @@
-name: Bug report
-description: Report a bug
-title: "[Bug]"
-labels: ["bug report"]
+name: Bug Report
+description: report a bug
+title: "[Bug]: "
+labels: ["bug"]
 body:
   - type: markdown
     attributes:
       value: |
         Thank you for taking the time to file a bug report.
         Please complete the following form to ask us for help with your issue.
-  - type: checkboxes
-    id: checks
-    attributes:
-      label: Checked
-      description: Please confirm checking the following options.
-      options:
-        - label: I added a descriptive title
-          required: true
-        - label: I am using dependency versions in the environment.yaml file
-          required: true
   - type: textarea
-    id: steps_to_reproduce
+    id: title
+    attributes:
+      label: Bug Description
+      description: What happened?
     validations:
       required: true
   - type: textarea
-    id: logs_error_messages
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Which steps should someone take to run into the same error?
+    validations:
+      required: true
+  - type: textarea
+    id: logs or error messages
     attributes:
       label: Relevant logs, tracebacks, messages, etc.
       description: Please copy-paste any relevant logs and/or error messages.
