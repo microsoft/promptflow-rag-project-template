@@ -39,6 +39,10 @@ jobs:
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           echo "OPENAI_DEPLOYMENT_EMBEDDING=${{ secrets.OPENAI_DEPLOYMENT_EMBEDDING }}" >> .env
           echo "OPENAI_API_VERSION=${{ secrets.OPENAI_API_VERSION }}" >> .env
+      
+      - name: Install keyrings.alt
+        run: |
+          python -m pip install keyrings.alt
           
       - name: Create Connections 
         run: |
