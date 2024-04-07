@@ -1,0 +1,32 @@
+name: Push CosmosMongo Docker
+
+on:
+  workflow_dispatch: # Trigger manually
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Previous steps here...
+
+      - name: Set up Docker
+        uses: actions/setup-docker@v2
+
+      - name: Build Docker image
+        run: |
+          pf flow build --source ./rag-cosmos-mongo --output deploy --format docker
+          docker build -t rag-app-serve deploy
+
+      - name: Login to Azure Container Registry
+        run: |
+          part1="${{ secrets.ACR_PASSWORD_PART1 }}"
+          part2="${{ secrets.ACR_PASSWORD_PART2 }}"
+          password="${part1}+${part2}"  # Include '+' in the concatenatio  # Concatenate parts with '+'
+          echo "$password" | docker login -u "${{ secrets.ACR_USERNAME }}" --password-stdin "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io"
+
+      - name: Tag Docker image for ACR
+        run: docker tag rag-app-serve "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io/rag-app-serve:latest"
+
+      - name: Push Docker image to Azure Container Registry
+        run: docker push "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io/rag-app-serve:latest
