@@ -51,7 +51,8 @@ jobs:
           python connect_aoai.py
       - name: Build Docker image
         run: |
-          pf flow build --source financial_transcripts/rag-cosmos-mongo --output deploy --format docker
+          cd financial_transcripts
+          pf flow build --source ./rag-cosmos-mongo --output deploy --format docker
           docker build -t rag-mongo-app-serve deploy
 
       - name: Login to Azure Container Registry
