@@ -49,18 +49,17 @@ jobs:
           cd financial_transcripts/connections
           python connect_cosmos.py
           python connect_aoai.py
+
       - name: Build Docker image
         run: |
           cd financial_transcripts
           pf flow build --source ./rag-cosmos-mongo --output deploy --format docker
           docker build -t rag-mongo-app-serve deploy
 
-      - name: Login to Azure Container Registry
+      - name: Log in to Azure Container Registry
         run: |
-          part1="${{ secrets.ACR_PASSWORD_PART1 }}"
-          part2="${{ secrets.ACR_PASSWORD_PART2 }}"
-          password="${part1}+${part2}"  # Include '+' in the concatenatio  # Concatenate parts with '+'
-          echo "$password" | docker login -u "${{ secrets.ACR_USERNAME }}" --password-stdin "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io"
+          docker login ${{ secrets.ACR_LOGIN_SERVER }} --username ${{ secrets.ACR_USERNAME }} --password ${{ secrets.ACR_PASSWORD }}
+
 
       - name: Tag Docker image for ACR
         run: docker tag rag-mongo-app-serve "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io/rag-mongo-app-serve:latest"
