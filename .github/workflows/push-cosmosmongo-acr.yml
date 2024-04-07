@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          python -m pf flow build --source financial_transcripts/rag-cosmos-mongo --output deploy --format docker
+          pf flow build --source financial_transcripts/rag-cosmos-mongo --output deploy --format docker
           docker build -t rag-mongo-app-serve deploy
 
       - name: Login to Azure Container Registry
