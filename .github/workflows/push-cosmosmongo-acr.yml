@@ -27,7 +27,7 @@ jobs:
         run: | 
           python -m pip install promptflow
           python -m pip install promptflow-tools    
-          python -m pip install -r finacial_transcripts/deploy/requirement.txt
+          python -m pip install -r finacial_transcripts/deploy/requirements.txt
 
       - name: Build Docker image
         run: |
