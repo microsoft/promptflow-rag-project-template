@@ -13,10 +13,24 @@ jobs:
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+      
+      - name: Install promptflow dependencies
+        run: | 
+          python -m pip install promptflow
+          python -m pip install promptflow-tools      
 
       - name: Build Docker image
         run: |
-          pf flow build --source financial_transcripts/rag-cosmos-mongo --output deploy --format docker
+          python -m pf flow build --source financial_transcripts/rag-cosmos-mongo --output deploy --format docker
           docker build -t rag-mongo-app-serve deploy
 
       - name: Login to Azure Container Registry
