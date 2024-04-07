@@ -15,8 +15,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          pf flow build --source ./rag-cosmos-mongo --output deploy --format docker
-          docker build -t rag-app-serve deploy
+          pf flow build --source financial_transcripts/rag-cosmos-mongo --output deploy --format docker
+          docker build -t rag-mongo-app-serve deploy
 
       - name: Login to Azure Container Registry
         run: |
@@ -26,7 +26,7 @@ jobs:
           echo "$password" | docker login -u "${{ secrets.ACR_USERNAME }}" --password-stdin "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io"
 
       - name: Tag Docker image for ACR
-        run: docker tag rag-app-serve "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io/rag-app-serve:latest"
+        run: docker tag rag-mongo-app-serve "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io/rag-mongo-app-serve:latest"
 
       - name: Push Docker image to Azure Container Registry
-        run: docker push "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io/rag-app-serve:latest
+        run: docker push "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io/rag-mongo-app-serve:latest
