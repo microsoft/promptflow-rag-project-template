@@ -31,7 +31,7 @@ jobs:
       - name: Create .env file in root directory 
         run: |
           touch .env 
-          echo "KEYS_FROM='ENV'"
+          echo "KEYS_FROM=ENV" >> .env
           echo "COSMOS_DB_MONGO_URI=${{ secrets.COSMOS_DB_MONGO_URI }}" >> .env
           echo "COSMOSDB_POSTGRES_CONN_STRING=${{ secrets.COSMOSDB_POSTGRES_CONN_STRING }}" >> .env
           echo "OPENAI_API_BASE=${{ secrets.OPENAI_API_BASE }}" >> .env
