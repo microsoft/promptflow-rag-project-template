@@ -1,7 +1,7 @@
 name: Push CosmosMongo Docker
 
 on:
-  workflow_dispatch: # Trigger manually
+  [push]
 
 jobs:
   deploy:
