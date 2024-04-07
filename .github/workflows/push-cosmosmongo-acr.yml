@@ -28,8 +28,22 @@ jobs:
           python -m pip install promptflow
           python -m pip install promptflow-tools    
           python -m pip install -r financial_transcripts/deploy/flow/requirements.txt
+      - name: Create .env file in root directory 
+        run: |
+          touch .env 
+          echo "KEYS_FROM='ENV'"
+          echo "COSMOS_DB_MONGO_URI=${{ secrets.COSMOS_DB_MONGO_URI }}" >> .env
+          echo "COSMOSDB_POSTGRES_CONN_STRING=${{ secrets.COSMOSDB_POSTGRES_CONN_STRING }}" >> .env
+          echo "OPENAI_API_BASE=${{ secrets.OPENAI_API_BASE }}" >> .env
+          echo "OPENAI_API_TYPE=${{ secrets.OPENAI_API_TYPE }}" >> .env
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+          echo "OPENAI_DEPLOYMENT_EMBEDDING=${{ secrets.OPENAI_DEPLOYMENT_EMBEDDING }}" >> .env
+          echo "OPENAI_API_VERSION=${{ secrets.OPENAI_API_VERSION }}" >> .env
           
-
+      - name: Create Connections 
+        run: |
+          python -m financial_transcripts\connections\connect_cosmos.py
+          python -m financial_transcripts\connections\connect_aoai.py
       - name: Build Docker image
         run: |
           pf flow build --source financial_transcripts/rag-cosmos-mongo --output deploy --format docker
