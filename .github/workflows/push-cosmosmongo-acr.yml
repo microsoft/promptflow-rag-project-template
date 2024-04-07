@@ -62,7 +62,7 @@ jobs:
 
 
       - name: Tag Docker image for ACR
-        run: docker tag rag-mongo-app-serve "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io/rag-mongo-app-serve:latest"
+        run: docker tag rag-mongo-app-serve "${{ secrets.ACR_LOGIN_SERVER }}/rag-mongo-app-serve:latest"
 
       - name: Push Docker image to Azure Container Registry
-        run: docker push "${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io/rag-mongo-app-serve:latest
+        run: docker push "${{ secrets.ACR_LOGIN_SERVER }}/rag-mongo-app-serve:latest
