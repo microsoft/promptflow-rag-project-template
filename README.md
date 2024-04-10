@@ -108,7 +108,7 @@ f. steps for webapp deployment
 
 >If you wish to use azure cli, please refer to the instructions in [Deployment via Azure CLI Instructions](financial_transcripts\deployment_utilities\webapp_deployment\deploy_via_azure_cli_instructions.md) for provisioning and deploying your webapp. 
 
-Please note that you if you have your own frontend, you can use the deployed web app as an endpoint. See example snippet below for making requests. 
+Please note that you if you have your own frontend, you can use the deployed web app as an endpoint and integrate with your frontend. See example snippet below for making requests. 
 
 ```
 import requests  
