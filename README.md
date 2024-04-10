@@ -113,7 +113,7 @@ Please note that you if you have your own frontend, you can use the deployed web
 ```
 import requests  
 import json  
-url = 'https://<your-web-app>.azurewebsites.net/score'
+url = 'https://<RAG-WEBAPP-NAME>.azurewebsites.net/score'
   
 data = {
     "query": "what was azure ML revenue in FY23Q2?"
