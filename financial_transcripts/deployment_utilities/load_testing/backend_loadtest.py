@@ -3,7 +3,7 @@ import random
 import json
 from dotenv import dotenv_values
 
-DEPLOYED_ENDPOINT = 'http://localhost:8080/' # or your azure deployment 'https://yourdeployent.azurewebsites.net/'
+DEPLOYED_ENDPOINT = 'http://localhost:8080/' # or your azure deployment 'https://<RAG-WEBAPP-NAME>.azurewebsites.net/'
 
 class QuickstartUser(HttpUser):
     wait_time = constant(0)
