@@ -85,7 +85,7 @@ pf flow build --source ./rag-<vector-search> --output deploy --format docker
 
 >Note: the deploy folder is where the llm app is packaged. 
 
-3) Inspect the requirement.txt file in the 'deploy/flow' directory. If empty, please manually add all the python packages from the environment.yaml file located at the root directory.
+3) Inspect the requirement.txt file in the 'deploy/flow' directory. 
 
 4) Inspect the connection files in the 'deploy/connections' and double-check information such as api_base and api_version.
 
