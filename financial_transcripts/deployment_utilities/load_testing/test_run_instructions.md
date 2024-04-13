@@ -8,7 +8,6 @@ link to blog: https://medium.com/@rico098098/load-testing-with-python-fea13369af
 
 ## Pre-requisite
 `pip install locust`
-Note: It is listed in the environment.yml file and should already be installed in the appliedaipf conda environment. 
 
 ## usage
 1. Modify the file `backend_loadtest.py` if you want to modify the question or test new endpoints
