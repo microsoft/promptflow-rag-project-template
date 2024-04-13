@@ -9,7 +9,7 @@
    2. Build the docker container remotely (this will upload and build the container in your ACR service) `az acr build --registry <ACR-NAME> --resource-group <RG-NAME> --image <rag-app-image-name> .`
    3. Create a web app using the built container `az webapp create --resource-group <RG-NAME> --plan <APP-SERVICE-PLAN-NAME> --name <RAG-WEBAPP-NAME> -i <ACR-NAME>.azurecr.io/<rag-app-image-name>:latest`
    plase double check the deployment center section of the web app on the azure portal to ensure image is pulled correctly.  
-   4. Configure your web app to listen to port 8000 and set a longer container_start_time_limit `az webapp config appsettings set --resource-group <RG-NAME> --name <RAG-WEBAPP-NAME> --settings WEBSITES_PORT=8000 WEBSITES_CONTAINER_START_TIME_LIMIT=1800 `
+   4. Configure your web app to listen to port 8080 and set a longer container_start_time_limit `az webapp config appsettings set --resource-group <RG-NAME> --name <RAG-WEBAPP-NAME> --settings WEBSITES_PORT=8080 WEBSITES_CONTAINER_START_TIME_LIMIT=1800 `
    5. Configure your web app for environment variables, such as open_ai_key. Please make sure to use 
     `az webapp config appsettings set --resource-group <RG-NAME> --name <RAG-WEBAPP-NAME> --settings APENAI_CONNECTION_API_KEY=<open_ai_key>`
    6. Open a browser at `<RAG-WEBAPP-NAME>.azurewebsites.net` (note: it may take a few minutes to load the first time the container is started)
