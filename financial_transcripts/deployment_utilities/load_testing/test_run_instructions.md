@@ -16,6 +16,6 @@ Note: It is listed in the environment.yml file and should already be installed i
     1. Add --headless to run headless
     2. -u is the number of max concurrent users
     3. -r is the rate to spawn users per second
-    4. -t is the time of the test (e.g. 1h, 1m, 60 (default unit is s)
+    4. -t is the time of the test (e.g. 1h, 1m, 60 (default unit is s))
     5. --html exports the report to HTML
 
