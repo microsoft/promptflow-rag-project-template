@@ -6,5 +6,6 @@ from promptflow import tool
 # Adding type to arguments and return value will help the system show the types properly
 # Please update the function name/signature per need
 @tool
-def my_python_tool(input1: str) -> str:
-    return f"MSFTFY{input1['Year']}Q{input1['Quarter']}"
+def construct_filter_query(input1: str) -> str:
+
+    return f'{{"$and":[{{"fiscal_quarter":{{"$in": ["{input1["Quarter"]}"]}}}}, {{"fiscal_year": {{"$in":["{input1["Year"]}"]}}}}]}}'
