@@ -17,6 +17,5 @@ azure-search-documents==11.4.0
 pydantic==1.10.11
 promptflow==1.2.0
 promptflow-tools==1.0.1
-black
-black[jupyter]
 azure-keyvault==4.2.0
+pf-azuredb==0.0.5
