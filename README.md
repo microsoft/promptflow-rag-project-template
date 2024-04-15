@@ -85,7 +85,7 @@ pf flow build --source ./rag-<vector-search> --output deploy --format docker
 
 >Note: the deploy folder is where the llm app is packaged. 
 
-3) Inspect the requirement.txt file in the 'deploy/flow' directory. If empty, please manually add all the python packages from the environment.yaml file located at the root directory.
+3) Inspect the requirement.txt file in the 'deploy/flow' directory. 
 
 4) Inspect the connection files in the 'deploy/connections' and double-check information such as api_base and api_version.
 
@@ -101,6 +101,28 @@ docker run -p 8080:8080 -e AOAI_CONNECTION_API_KEY=<secret-value> -e ACS_CONNECT
 
 7) Finally inspect the end point. 
 In you local machine, you may inspect your app in a browser: http://localhost:8080/
+
+f. steps for webapp deployment 
+
+>First, you need to provision an azure container registry and an app service plan. Then follow steps from promptflow's official documentations for webapp deployment: https://microsoft.github.io/promptflow/cloud/azureai/deploy-to-azure-appservice.html. 
+
+>If you wish to use azure cli, please refer to the instructions in [Deployment via Azure CLI Instructions](financial_transcripts\deployment_utilities\webapp_deployment\deploy_via_azure_cli_instructions.md) for provisioning and deploying your webapp. 
+
+Please note that you if you have your own frontend, you can use the deployed web app as an endpoint and integrate with your frontend. See example snippet below for making requests. 
+
+```
+import requests  
+import json  
+url = 'https://<RAG-WEBAPP-NAME>.azurewebsites.net/score'
+  
+data = {
+    "query": "what was azure ML revenue in FY23Q2?"
+}  
+headers = {"Content-Type": "application/json"}  
+response = requests.post(url, data=json.dumps(data), headers=headers)  
+print(response.text)
+```
+
 
 ## Alternative Azure Vector databases
 Microsft azure databases, such as cosmosdb mongodb vcore or postgres flex, also offer vector search capabilities that could be used in lieu of azure search. Please refer to vectordb-tools directory for the instructions.
