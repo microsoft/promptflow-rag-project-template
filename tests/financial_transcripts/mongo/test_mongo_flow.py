@@ -1,7 +1,5 @@
 import pytest
 
-
-
 def test_rag_cosmos_mongo_flow_runs():
     '''
     The goal of the test: flow runs without error
