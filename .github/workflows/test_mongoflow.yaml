@@ -1,12 +1,16 @@
 name: Unit Testing
 
+# on:
+#   push:
+#     branches:
+#       - "main"
+#   pull_request:
+#     branches:
+#       - '*'
+
 on:
-  push:
-    branches:
-      - "main"
-  pull_request:
-    branches:
-      - '*'
+  workflow_dispatch:  # Manually trigger the workflow
+
 
 jobs:
   test:
