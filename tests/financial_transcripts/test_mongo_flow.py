@@ -2,7 +2,7 @@ import pytest
 
 
 
-def test_rag_cosmos_flow_runs():
+def test_rag_cosmos_mongo_flow_runs():
     '''
     The goal of the test: flow runs without error
     Out of scope: accuracy/relevance of output    
