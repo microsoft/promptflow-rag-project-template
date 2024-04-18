@@ -1,18 +1,13 @@
 name: Unit Testing PostgreSQL
 
-# on:
-#   push:
-#     branches:
-#       - "main"
-#   pull_request:
-#     branches:
-#       - '*'
-
-# on:
-#   workflow_dispatch:  # Manually trigger the workflow
-
 on:
-  [push]
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - '*'
+
 
 jobs:
   test:
