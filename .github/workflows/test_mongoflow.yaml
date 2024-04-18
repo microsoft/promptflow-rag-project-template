@@ -8,9 +8,11 @@ name: Unit Testing
 #     branches:
 #       - '*'
 
-on:
-  workflow_dispatch:  # Manually trigger the workflow
+# on:
+#   workflow_dispatch:  # Manually trigger the workflow
 
+on:
+  [push]
 
 jobs:
   test:
