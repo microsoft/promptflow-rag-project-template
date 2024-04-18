@@ -27,7 +27,11 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      
+
+      - name: Install keyrings.alt
+        run: |
+          python -m pip install keyrings.alt
+          
       - name: Create .env file in package directory 
         run: |
           touch .env 
