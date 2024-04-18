@@ -1,18 +1,18 @@
 name: Unit Testing ACS
 
-# on:
-#   push:
-#     branches:
-#       - "main"
-#   pull_request:
-#     branches:
-#       - '*'
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - '*'
 
 # on:
 #   workflow_dispatch:  # Manually trigger the workflow
 
-on:
-  [push]
+# on:
+#   [push]
 
 jobs:
   test:
