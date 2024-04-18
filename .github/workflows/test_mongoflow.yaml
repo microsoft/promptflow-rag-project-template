@@ -56,6 +56,10 @@ jobs:
           python connect_cosmos.py
           python connect_aoai.py
 
+      - name: Install pytest
+        run: |
+          python -m pip install pytest 
+
       - name: Run CosmosMongo Flow
         run: |
           pytest tests/financial_transcripts/mongo
