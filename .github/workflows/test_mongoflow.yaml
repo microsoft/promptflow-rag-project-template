@@ -42,4 +42,4 @@ jobs:
 
       - name: Run CosmosMongo Flow
         run: |
-          pytest tests/
+          pytest tests/financial_transcripts/mongo
