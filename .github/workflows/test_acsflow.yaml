@@ -1,0 +1,65 @@
+name: Unit Testing
+
+# on:
+#   push:
+#     branches:
+#       - "main"
+#   pull_request:
+#     branches:
+#       - '*'
+
+# on:
+#   workflow_dispatch:  # Manually trigger the workflow
+
+on:
+  [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install keyrings.alt
+        run: |
+          python -m pip install keyrings.alt
+
+      - name: Create .env file in package directory 
+        run: |
+          touch .env 
+          echo "KEYS_FROM==${{ secrets.KEYS_FROM}}" >> .env
+          echo "OPENAI_API_BASE=${{ secrets.OPENAI_API_BASE }}" >> .env
+          echo "OPENAI_API_TYPE=${{ secrets.OPENAI_API_TYPE }}" >> .env
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+          echo "OPENAI_DEPLOYMENT_EMBEDDING=${{ secrets.OPENAI_DEPLOYMENT_EMBEDDING }}" >> .env
+          echo "OPENAI_API_VERSION=${{ secrets.OPENAI_API_VERSION }}" >> .env
+          echo "COGSEARCH_API_KEY=${{ secrets.COGSEARCH_API_KEY}}" >> .env
+          echo "COGSEARCH_ADDRESS=${{ secrets.COGSEARCH_ADDRESS}}" >> .env
+
+      - name: Install dependencies from pull request branch's azure search requirement
+        run: |
+          python -m pip install --upgrade pip 
+          cd financial_transcripts/rag-azure-search 
+          python -m pip install -r requirements.txt 
+
+      - name: Create Connections 
+        run: |
+          cd financial_transcripts/connections
+          python connect_acs.py
+          python connect_aoai.py
+
+      - name: Install pytest
+        run: |
+          python -m pip install pytest 
+
+      - name: Run Azure Search Flow
+        run: |
+          pytest tests/financial_transcripts/acs
