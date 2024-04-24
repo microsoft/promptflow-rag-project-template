@@ -21,23 +21,17 @@ if config["KEYS_FROM"] == "KEYVAULT":
     connection = CustomConnection(
         name="cosmodb_connection",
         # Secrets is a required field for custom connection
-        secrets={"my_key": "DUMMY"},  # unsupported
-        configs={
-            "AZURE_COSMOSDB_MONGODB_URI": client.get_secret(
+        secrets={"AZURE_COSMOSDB_MONGODB_URI": client.get_secret(
                 "COSMOS-DB-MONGO-URI"
-            ).value,
-        },
-    )
+            ).value})
+    
 else:
     print(".env was selected.")
     # Initialize an AzureOpenAIConnection object
     connection = CustomConnection(
         name="cosmodb_connection",
         # Secrets is a required field for custom connection
-        secrets={"my_key": "DUMMY"},  # unsupported
-        configs={
-            "AZURE_COSMOSDB_MONGODB_URI": config["COSMOS_DB_MONGO_URI"],
-        },
+        secrets={ "AZURE_COSMOSDB_MONGODB_URI": config["COSMOS_DB_MONGO_URI"]},  # unsupported
     )
 
 # Create the connection, note that all secret values will be scrubbed in the returned result
