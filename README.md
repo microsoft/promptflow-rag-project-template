@@ -19,7 +19,7 @@ a. steps to run rag app locally in your vscode:
 1) Set up your dev environment:
 Install miniconda for your environment, here is the link for [windows miniconda](https://docs.conda.io/projects/miniconda/en/latest/index.html). Run the following command
 `conda env update -f environment.yaml`
-2) Install [azure-cli](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli) if you haven't already. Do `az-login`. 
+2) Install [azure-cli](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli) if you haven't already. Do `az login`. 
 3) Make a copy of `.env.sample` and rename it to `.env`. You can use this file to decide to use keys from this file or azure keyvault. The keys will be used for preprocessing in step 3 and creating connections for promptflow in step 4.
 ```bash
 # Use .env or keyvault. ENV or empty = .env, KEYVAULT = keyvault
@@ -77,13 +77,15 @@ e. Steps for docker deployment:
 pre-requisite: Docker. You can get docker from [here](https://www.docker.com/get-started/).
 
 1) Change directory to sample folder (e.g. financial_transcripts)
-2) Use the command below to recreate your llm app as a docker format:
+2) Use the command below to recreate your llm app as a docker format or click the vscode build option:
 ```bash
 pf flow build --source ./rag-<vector-search> --output deploy --format docker
 ```
 >Note: replace vector-search with one of available search options: (1)azure-search (2)cosmos-mongo (3)cosmos-postgres
 
 >Note: the deploy folder is where the llm app is packaged. 
+
+![](img/build_docker.png)
 
 3) Inspect the requirement.txt file in the 'deploy/flow' directory. 
 
@@ -123,8 +125,11 @@ response = requests.post(url, data=json.dumps(data), headers=headers)
 print(response.text)
 ```
 
+> NOTE: additional information about client interaction with promptflow serving and streaming can be found at `financial_transcripts/deployment_utilities/test_client`
+
 
 ## Alternative Azure Vector databases
+
 Microsft azure databases, such as cosmosdb mongodb vcore or postgres flex, also offer vector search capabilities that could be used in lieu of azure search. Please refer to vectordb-tools directory for the instructions.
 
 ## Developer guide
