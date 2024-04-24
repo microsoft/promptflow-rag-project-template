@@ -109,7 +109,6 @@ nodes:
     conversation: ${FormatConversation.output}
     documentation: ${FormatRetrievedDocuments.output}
     user_query: ${inputs.query}
-    stream: true
   connection: aoai_connection
   api: chat
   use_variants: false
@@ -136,7 +135,6 @@ nodes:
     conversation: ${FormatConversation.output}
     context: ${GetContextFromHistory.output}
     user_query: ${inputs.query}
-    stream: true
   connection: aoai_connection
   api: chat
   activate:
