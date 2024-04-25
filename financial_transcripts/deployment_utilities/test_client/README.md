@@ -28,6 +28,8 @@ python test_client.py --url <https://INSERT_NAME.azurewebsites.net/score>
     stream: true
 ```
 
+> NOTE: Streaming only works from the final LLM response in your flow. If you have more than one route and bypass certain nodes, be sure to enable stream: true for all of the potential final LLM responses. If you don't, you will likely get an error from the client saying that there was no response. On the promptflow serving side, you will see it say streaming was not enabled.
+
 Streaming will then work if you modify the header in the client to include `text/event-stream`. 
 ```
 "Accept" : "text/event-stream, application/json"
