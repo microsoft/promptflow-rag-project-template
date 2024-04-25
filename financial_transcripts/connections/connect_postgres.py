@@ -1,4 +1,4 @@
-from promptflow import PFClient
+from promptflow.client import PFClient
 from promptflow.entities import CustomConnection
 from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential
@@ -21,23 +21,16 @@ if config["KEYS_FROM"] == "KEYVAULT":
     connection = CustomConnection(
         name="postgres_connection",
         # Secrets is a required field for custom connection
-        secrets={"my_key": "DUMMY"},  # unsupported
-        configs={
-            "conn_string": client.get_secret(
+        secrets={"AZURE_COSMOSDB_POSTGRES_CONN_STRING": client.get_secret(
                 "COSMOSDB-POSTGRES-CONN-STRING"
-            ).value,
-        },
-    )
+            ).value})
 else:
     print(".env was selected.")
     # Initialize an AzureOpenAIConnection object
     connection = CustomConnection(
         name="postgres_connection",
         # Secrets is a required field for custom connection
-        secrets={"my_key": "DUMMY"},  # unsupported
-        configs={
-            "conn_string": config["COSMOSDB_POSTGRES_CONN_STRING"],
-        },
+        secrets={ "AZURE_COSMOSDB_POSTGRES_CONN_STRING": config["COSMOSDB_POSTGRES_CONN_STRING"]}
     )
 
 # Create the connection, note that all secret values will be scrubbed in the returned result
