@@ -98,17 +98,6 @@ nodes:
   activate:
     when: ${ChatFlow.output}
     is: new_retrieval
-- name: FormatReply
-  type: python
-  source:
-    type: code
-    path: FormatReply.py
-  inputs:
-    reply: ${DetermineReply.output}
-  use_variants: false
-  activate:
-    when: ${ChatFlow.output}
-    is: new_retrieval
 - name: GetContextFromHistory
   type: python
   source:
@@ -140,7 +129,7 @@ nodes:
     type: code
     path: GenerateResult.py
   inputs:
-    determine_reply: ${FormatReply.output}
+    determine_reply: ${DetermineReply.output}
     continue_reply: ${ContinueReply.output}
     chat_flow: ${ChatFlow.output}
 - name: LogParam

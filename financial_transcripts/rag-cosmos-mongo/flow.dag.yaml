@@ -10,7 +10,7 @@ inputs:
     is_chat_history: true
   query:
     type: string
-    default: What is the quarterly revenue of Microsoft Cloud in FY23Q1?
+    default: " What is the growth rate of Azure ML revenue in FY23Q2?"
     is_chat_input: true
     is_chat_history: false
 outputs:
@@ -77,17 +77,6 @@ nodes:
   use_variants: false
 - name: DetermineReply
   use_variants: true
-- name: FormatReply
-  type: python
-  source:
-    type: code
-    path: FormatReply.py
-  inputs:
-    reply: ${DetermineReply.output}
-  use_variants: false
-  activate:
-    when: ${ChatFlow.output}
-    is: new_retrieval
 - name: GetContextFromHistory
   type: python
   source:
@@ -119,7 +108,7 @@ nodes:
     type: code
     path: GenerateResult.py
   inputs:
-    determine_reply: ${FormatReply.output}
+    determine_reply: ${DetermineReply.output}
     continue_reply: ${ContinueReply.output}
     chat_flow: ${ChatFlow.output}
 - name: LogParam
@@ -140,8 +129,8 @@ nodes:
     tool: promptflow.tools.embedding.embedding
   inputs:
     connection: aoai_connection
-    deployment_name: text-embedding-ada-002
     input: ${inputs.query}
+    deployment_name: text-embedding-ada-002
 - name: Azure_CosmosDB_MongoDB_vCore_Vector_Search
   type: python
   source:
