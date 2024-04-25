@@ -32,3 +32,4 @@ dependencies:
     - unstructured==0.12.2
     - pf-azuredb==0.0.5
     - ipykernel==6.28.0
+    - azure-identity==1.16.0 
