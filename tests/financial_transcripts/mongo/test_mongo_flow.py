@@ -1,12 +1,13 @@
 import pytest
 import promptflow
 
+
 def test_rag_cosmos_mongo_flow_runs():
-    '''
+    """
     The goal of the test: flow runs without error
-    Out of scope: accuracy/relevance of output    
-    '''
-    
+    Out of scope: accuracy/relevance of output
+    """
+
     pf = promptflow.PFClient()
 
     output = pf.flows.test(
@@ -16,5 +17,3 @@ def test_rag_cosmos_mongo_flow_runs():
             "query": "What is the growth rate of Azure ML revenue in FY23Q1?",
         },
     )
-
-
