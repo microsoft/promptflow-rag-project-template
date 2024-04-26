@@ -10,7 +10,7 @@ inputs:
     is_chat_history: true
   query:
     type: string
-    default: " What is the growth rate of Azure ML revenue in FY23Q1?"
+    default: What about the following quarter?
     is_chat_input: true
     is_chat_history: false
 outputs:
@@ -45,8 +45,7 @@ nodes:
     type: code
     path: QueryParser.py
   inputs:
-    query: ${inputs.query}
-    conversation: ${inputs.chat_history}
+    query: ${QueryRewriter.output}
   aggregation: false
 - name: ChatFlow
   type: python
@@ -66,7 +65,7 @@ nodes:
     searchConnection: acs_connection
     embeddingModelConnection: aoai_connection
     embeddingModelName: text-embedding-ada-002
-    queries: ${inputs.query}
+    queries: ${QueryRewriter.output}
     indexName: ${ConfigLoader.output.indexName}
     vectorColName: Embedding
     filterCol: ${QueryParser.output}
@@ -108,7 +107,7 @@ nodes:
     frequency_penalty: 0
     conversation: ${FormatConversation.output}
     documentation: ${FormatRetrievedDocuments.output}
-    user_query: ${inputs.query}
+    user_query: ${QueryRewriter.output}
   connection: aoai_connection
   api: chat
   use_variants: false
@@ -160,3 +159,15 @@ nodes:
     maxTokens: ${ConfigLoader.output.maxTokens}
     searchType: ${ConfigLoader.output.searchType}
     indexName: ${ConfigLoader.output.indexName}
+- name: QueryRewriter
+  type: llm
+  source:
+    type: code
+    path: QueryRewriter.jinja2
+  inputs:
+    deployment_name: gpt-35-turbo
+    max_tokens: 5000
+    chat_history: ${inputs.chat_history}
+    query: ${inputs.query}
+  connection: aoai_connection
+  api: chat
