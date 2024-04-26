@@ -1,12 +1,12 @@
 import pytest
+import promptflow
 
 def test_rag_cosmos_mongo_flow_runs():
     '''
     The goal of the test: flow runs without error
     Out of scope: accuracy/relevance of output    
     '''
-    import promptflow
-
+    
     pf = promptflow.PFClient()
 
     output = pf.flows.test(
