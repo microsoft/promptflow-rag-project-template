@@ -1,0 +1,64 @@
+name: Build CosmosMongo Docker and Push to Registry 
+
+on:
+  [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+      
+      - name: Install promptflow dependencies
+        run: | 
+          python -m pip install promptflow
+          python -m pip install promptflow-tools    
+          python -m pip install -r financial_transcripts/rag-cosmos-mongo/requirements.txt
+      - name: Create .env file in root directory 
+        run: |
+          touch .env 
+          echo "KEYS_FROM==${{ secrets.KEYS_FROM}}" >> .env
+          echo "COSMOS_DB_MONGO_URI=${{ secrets.COSMOS_DB_MONGO_URI }}" >> .env
+          echo "COSMOSDB_POSTGRES_CONN_STRING=${{ secrets.COSMOSDB_POSTGRES_CONN_STRING }}" >> .env
+          echo "OPENAI_API_BASE=${{ secrets.OPENAI_API_BASE }}" >> .env
+          echo "OPENAI_API_TYPE=${{ secrets.OPENAI_API_TYPE }}" >> .env
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+          echo "OPENAI_DEPLOYMENT_EMBEDDING=${{ secrets.OPENAI_DEPLOYMENT_EMBEDDING }}" >> .env
+          echo "OPENAI_API_VERSION=${{ secrets.OPENAI_API_VERSION }}" >> .env
+      
+      - name: Install keyrings.alt
+        run: |
+          python -m pip install keyrings.alt
+          
+      - name: Create Connections 
+        run: |
+          cd financial_transcripts/connections
+          python connect_cosmos.py
+          python connect_aoai.py
+      - name: Build Docker image
+        run: |
+          cd financial_transcripts
+          pf flow build --source ./rag-cosmos-mongo --output deploy --format docker
+          docker build -t rag-mongo-app-serve deploy
+      - name: Log in to Azure Container Registry
+        run: |
+          docker login ${{ secrets.ACR_LOGIN_SERVER }} --username ${{ secrets.ACR_USERNAME }} --password ${{ secrets.ACR_PASSWORD }}
+      - name: Tag Docker image for ACR
+        run: docker tag rag-mongo-app-serve "${{ secrets.ACR_LOGIN_SERVER }}/rag-mongo-app-serve:cicd"
+
+      - name: Push Docker image to Azure Container Registry
+        run: docker push "${{ secrets.ACR_LOGIN_SERVER }}/rag-mongo-app-serve:cicd"
