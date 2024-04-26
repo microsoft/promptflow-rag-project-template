@@ -1,4 +1,4 @@
-from promptflow import PFClient
+from promptflow.client import PFClient
 from promptflow.entities import (
     AzureOpenAIConnection,
     CustomConnection,
