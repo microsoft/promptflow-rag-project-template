@@ -1,7 +1,12 @@
 name: Build CosmosPostgres Docker and Push to Registry 
 
 on:
-  [push]
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
   deploy:
