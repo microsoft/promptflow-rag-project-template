@@ -9,33 +9,3 @@ chat_history,query,answer
 [],What are some examples of companies using Azure OpenAI Service in FY23Q2?,"Over 200 customers, including KPMG and Al Jazeera, are already using Azure OpenAI Service."
 [],How many developers are using GitHub Copilot as of FY23Q2?,More than one million people have used GitHub Copilot to date.
 [],What is the growth rate of Azure Machine Learning revenue in FY23Q1?,Azure ML revenue alone has increased more than 100 percent for five quarters in a row.
-"[
-        {
-            ""inputs"": {
-                ""query"": ""What is the quarterly revenue of Microsoft Cloud in FY23Q1?""
-            },
-            ""outputs"": {
-                ""reply"": ""$25 billion in quarterly revenue, up 24 percent and 31 percent in constant currency.""
-            }
-        }
-    ] ",What is the annual recurring revenue of GitHub in FY23Q1?,GitHub is now at $1 billion in annual recurring revenue.
-"[
-        {
-            ""inputs"": {
-                ""query"": ""How many Azure Arc customers does Microsoft currently have in FY23Q1?""
-            },
-            ""outputs"": {
-                ""reply"": ""More than 8,500 Arc customers, more than double the number a year ago.""
-            }
-        }
-    ] ",What about the following quarter?,"More than 12,000 Arc customers, double the number a year ago."
-"[
-        {
-            ""inputs"": {
-                ""query"": ""How many Azure Arc customers does Microsoft currently have in FY23Q2?""
-            },
-            ""outputs"": {
-                ""reply"": ""More than 12,000 Arc customers, double the number a year ago.""
-            }
-        }
-    ] ",How did it do in previous quarter?,"More than 8,500 Arc customers, more than double the number a year ago."
