@@ -178,7 +178,7 @@ nodes:
     type: code
     path: QueryRewriter.jinja2
   inputs:
-    deployment_name: gpt-35-turbo
+    deployment_name: gpt-4-32k
     max_tokens: 5000
     query: ${inputs.query}
     chat_history: ${inputs.chat_history}
