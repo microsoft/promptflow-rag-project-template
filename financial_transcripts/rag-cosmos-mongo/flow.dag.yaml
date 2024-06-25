@@ -164,7 +164,7 @@ nodes:
   api: chat
 node_variants:
   DetermineReply:
-    default_variant_id: variant_0
+    default_variant_id: variant_1
     variants:
       variant_0:
         node:
@@ -195,7 +195,7 @@ node_variants:
             type: code
             path: DetermineReply_variant_1.jinja2
           inputs:
-            deployment_name: gpt-4
+            deployment_name: gpt-4-32k
             temperature: 0
             top_p: 1
             max_tokens: 800
