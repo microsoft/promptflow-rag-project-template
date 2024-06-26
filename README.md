@@ -70,6 +70,7 @@ c. Steps for experimentation in vscode:
 d. Steps for batch experimentation using python SDK:
 1) Go to experimentation directory and chose the subdirectory based on your choice of vectorsearch services.   
 1) Open batchRunEvaluations.ipynb notebook and run through cells. Note: to setup the configs for the batch experimentation runs, you may modify run_config.yaml file for batch evaluations on several configurations as you may find in the last section of the notebook. 
+* Note: the notebook is setup to use evalset.csv, which contains 10 human-curated pairs of questions and answers. Please refer to the [readme file in the datasets subdirectory](\financial_transcripts\datasets\readme.md) for alternative datasets. 
 
 
 e. Steps for docker deployment:
