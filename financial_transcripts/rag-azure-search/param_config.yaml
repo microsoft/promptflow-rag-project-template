@@ -1,4 +1,4 @@
 indexName: msft-transcripts-1
 maxTokens: 3500
-searchType: filter_hybrid
-topK: 5
+searchType: filter_vector
+topK: 3
