@@ -3,16 +3,11 @@ Run1:
   searchType: vector
   dbName: earning_calls
   colName: transcript_filter_vector
-  topK: 3
+  topK: 5
 Run2:
   maxTokens: 3500
   searchType: filter_vector
   dbName: earning_calls
   colName: transcript_filter_vector
-  topK: 3
-Run3:
-  maxTokens: 3500
-  searchType: filter_vector
-  dbName: earning_calls
-  colName: transcript_filter_vector
   topK: 5
+

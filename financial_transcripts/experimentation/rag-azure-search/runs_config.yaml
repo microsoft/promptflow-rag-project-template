@@ -6,10 +6,15 @@ Run1:
 Run2:
   maxTokens: 3500
   topK: 5
-  searchType: filter_vector
+  searchType: hybrid
   indexName: msft-transcripts-1
 Run3:
   maxTokens: 3500
   topK: 5
   searchType: filter_hybrid
+  indexName: msft-transcripts-1
+Run4:
+  maxTokens: 3500
+  topK: 5
+  searchType: filter_vector
   indexName: msft-transcripts-1
