@@ -92,7 +92,7 @@ nodes:
     type: code
     path: ContinueReply.jinja2
   inputs:
-    deployment_name: gpt-35-turbo
+    deployment_name: gpt-4-32k
     conversation: ${FormatConversation.output}
     context: ${GetContextFromHistory.output}
     user_query: ${inputs.query}
