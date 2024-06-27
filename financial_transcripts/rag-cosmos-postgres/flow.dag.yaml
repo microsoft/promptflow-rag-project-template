@@ -47,8 +47,7 @@ nodes:
     type: code
     path: QueryParser.py
   inputs:
-    query: ${inputs.query}
-    conversation: ${inputs.chat_history}
+    query: ${QueryRewriter.output}
   aggregation: false
 - name: ChatFlow
   type: python
@@ -83,7 +82,7 @@ nodes:
     type: code
     path: DetermineReply.jinja2
   inputs:
-    deployment_name: gpt-35-turbo
+    deployment_name: gpt-4-32k
     temperature: 0
     top_p: 1
     max_tokens: 800
@@ -91,7 +90,7 @@ nodes:
     frequency_penalty: 0
     conversation: ${FormatConversation.output}
     documentation: ${FormatRetrievedDocuments.output}
-    user_query: ${inputs.query}
+    user_query: ${QueryRewriter.output}
   connection: aoai_connection
   api: chat
   use_variants: false
@@ -114,7 +113,7 @@ nodes:
     type: code
     path: ContinueReply.jinja2
   inputs:
-    deployment_name: gpt-35-turbo
+    deployment_name: gpt-4-32k
     conversation: ${FormatConversation.output}
     context: ${GetContextFromHistory.output}
     user_query: ${inputs.query}
@@ -165,7 +164,7 @@ nodes:
   inputs:
     connection: aoai_connection
     deployment_name: text-embedding-ada-002
-    input: ${inputs.query}
+    input: ${QueryRewriter.output}
 - name: QueryForFilter
   type: python
   source:
@@ -173,3 +172,15 @@ nodes:
     path: QueryForFilter.py
   inputs:
     input_dict: ${QueryParser.output}
+- name: QueryRewriter
+  type: llm
+  source:
+    type: code
+    path: QueryRewriter.jinja2
+  inputs:
+    deployment_name: gpt-4-32k
+    max_tokens: 5000
+    query: ${inputs.query}
+    chat_history: ${inputs.chat_history}
+  connection: aoai_connection
+  api: chat

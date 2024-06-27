@@ -10,7 +10,7 @@ inputs:
     is_chat_history: true
   query:
     type: string
-    default: " What is the growth rate of Azure ML revenue in FY23Q2?"
+    default: " What is the growth rate of Azure ML revenue in FY23Q1?"
     is_chat_input: true
     is_chat_history: false
 outputs:
@@ -45,8 +45,7 @@ nodes:
     type: code
     path: QueryParser.py
   inputs:
-    query: ${inputs.query}
-    conversation: ${inputs.chat_history}
+    query: ${QueryRewriter.output}
   aggregation: false
 - name: ChatFlow
   type: python
@@ -93,7 +92,7 @@ nodes:
     type: code
     path: ContinueReply.jinja2
   inputs:
-    deployment_name: gpt-35-turbo
+    deployment_name: gpt-4-32k
     conversation: ${FormatConversation.output}
     context: ${GetContextFromHistory.output}
     user_query: ${inputs.query}
@@ -129,7 +128,7 @@ nodes:
     tool: promptflow.tools.embedding.embedding
   inputs:
     connection: aoai_connection
-    input: ${inputs.query}
+    input: ${QueryRewriter.output}
     deployment_name: text-embedding-ada-002
 - name: Azure_CosmosDB_MongoDB_vCore_Vector_Search
   type: python
@@ -151,9 +150,21 @@ nodes:
     path: CollectionFilter.py
   inputs:
     input1: ${QueryParser.output}
+- name: QueryRewriter
+  type: llm
+  source:
+    type: code
+    path: QueryRewriter.jinja2
+  inputs:
+    deployment_name: gpt-4-32k
+    max_tokens: 5000
+    query: ${inputs.query}
+    chat_history: ${inputs.chat_history}
+  connection: aoai_connection
+  api: chat
 node_variants:
   DetermineReply:
-    default_variant_id: variant_0
+    default_variant_id: variant_1
     variants:
       variant_0:
         node:
@@ -170,7 +181,7 @@ node_variants:
             frequency_penalty: 0
             conversation: ${FormatConversation.output}
             documentation: ${FormatRetrievedDocuments.output}
-            user_query: ${inputs.query}
+            user_query: ${QueryRewriter.output}
           connection: aoai_connection
           api: chat
           use_variants: false
@@ -184,7 +195,7 @@ node_variants:
             type: code
             path: DetermineReply_variant_1.jinja2
           inputs:
-            deployment_name: gpt-4
+            deployment_name: gpt-4-32k
             temperature: 0
             top_p: 1
             max_tokens: 800
@@ -192,7 +203,7 @@ node_variants:
             frequency_penalty: 0
             conversation: ${FormatConversation.output}
             documentation: ${FormatRetrievedDocuments.output}
-            user_query: ${inputs.query}
+            user_query: ${QueryRewriter.output}
           connection: aoai_connection
           api: chat
           use_variants: false

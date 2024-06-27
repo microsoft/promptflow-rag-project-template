@@ -3,7 +3,7 @@ import re
 import pdb
 
 @tool
-def query_parser(query: str, conversation: list):
+def query_parser(query: str):
     try:
         # Extract year
         year = re.search(r'FY(\d{2})', query).group(1)
