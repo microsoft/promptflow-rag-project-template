@@ -10,7 +10,7 @@ inputs:
     is_chat_history: true
   query:
     type: string
-    default: " What is the growth rate of Azure ML revenue in FY23Q2?"
+    default: " What is the growth rate of Azure ML revenue in FY23Q1?"
     is_chat_input: true
     is_chat_history: false
 outputs:
