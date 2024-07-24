@@ -64,7 +64,7 @@ nodes:
     type: code
     path: FormatRetrievedDocuments.py
   inputs:
-    docs: ${Azure_Cosmosdb_Postgres_Vector_Search.output}
+    docs: ${Azure_postgreSQL_Vector_Search.output}
     maxTokens: ${ConfigLoader.output.maxTokens}
   use_variants: false
 - name: FormatConversation
@@ -142,20 +142,6 @@ nodes:
     maxTokens: ${ConfigLoader.output.maxTokens}
     searchType: ${ConfigLoader.output.searchType}
     tableName: ${ConfigLoader.output.tableName}
-- name: Azure_Cosmosdb_Postgres_Vector_Search
-  type: python
-  source:
-    type: package
-    tool: pfazuredb.tools.potgrespg.vectorsearch
-  inputs:
-    connection: postgres_connection
-    table_name: ${ConfigLoader.output.tableName}
-    search_type: ${ConfigLoader.output.searchType}
-    num_results: ${ConfigLoader.output.topK}
-    embeddings: ${Embedding.output}
-    vectorsearch_method: ${ConfigLoader.output.vectorSearchMethod}
-    filter_text: ${QueryForFilter.output}
-    question: ${inputs.query}
 - name: Embedding
   type: python
   source:
@@ -184,3 +170,17 @@ nodes:
     chat_history: ${inputs.chat_history}
   connection: aoai_connection
   api: chat
+- name: Azure_postgreSQL_Vector_Search
+  type: python
+  source:
+    type: package
+    tool: pfazuredb.tools.postgresqlpgvector.vectorsearch
+  inputs:
+    connection: postgresql_connection
+    table_name: ${ConfigLoader.output.tableName}
+    search_type: ${ConfigLoader.output.searchType}
+    num_results: ${ConfigLoader.output.topK}
+    question: ${inputs.query}
+    embeddings: ${Embedding.output}
+    vectorsearch_method: ${ConfigLoader.output.vectorSearchMethod}
+    filter_text: ${QueryForFilter.output}

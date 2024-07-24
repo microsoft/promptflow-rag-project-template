@@ -5,7 +5,7 @@ inputs:
 outputs:
   out:
     type: string
-    reference: ${Azure_Cosmosdb_Postgres_Vector_Search_6ezp.output}
+    reference: ${Azure_postgreSQL_Vector_Search_1813.output}
 nodes:
 - name: vector_embedding
   type: python
@@ -16,16 +16,17 @@ nodes:
     connection: aoai_connection
     deployment_name: text-embedding-ada-002
     input: ${inputs.query}
-- name: Azure_Cosmosdb_Postgres_Vector_Search_6ezp
+- name: Azure_postgreSQL_Vector_Search_1813
   type: python
   source:
     type: package
-    tool: pfazuredb.tools.potgrespg.vectorsearch
+    tool: pfazuredb.tools.postgresqlpgvector.vectorsearch
   inputs:
-    connection: postgres_connection
+    connection: postgresql_connection
     table_name: msft_transcript
     search_type: vector
     num_results: 3
+    question: ${inputs.query}
     embeddings: ${vector_embedding.output}
-    filter_text: none
     vectorsearch_method: L2
+    filter_text: none

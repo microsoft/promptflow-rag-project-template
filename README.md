@@ -31,13 +31,11 @@ KEY_VAULT_NAME=""
 5) Create connections for ACS, AOAI, etc by running python code in `connections/` directory.
 6) Go to `rag-<vector-search>` directory, open flow.dag.yaml visually, then choose the connections that you have created in any specific nodes that are complaining with a warning. 
 
-For vector search, you may use azure search, or native vector search capabilities of cosmosdb offerings such as postgres. Currently, we included complete flows for azure-search (previously azure cognitive search), cosmosdb mongodbvcore, and postgres as shown in rag-azure-search, rag-cosmos-mongo, and rag-cosmos-postgres directories, respectively. 
+For vector search, you may use azure search, or native vector search capabilities of cosmosdb and postgreSQL flex. Currently, we included complete flows for azure-search (previously azure cognitive search), cosmos db mongodbvcore, cosmos db postgreSQL, and postgreSQL flex as shown in `rag-azure-search`, `rag-cosmos-mongo`,`rag-cosmos-postgresql-pgvector`, and `rag-postgresql-flex-pgvector` directories, respectively. 
 
 7) Run or build locally to deploy the app and interact with the bot in your local environment. 
 
-Note: You will find two yaml files in the 'rag-copilot' folder. The flow.dag.yaml is the main yaml file that orchestrates various app components, such as retreivals, llm calls, etc. In addition, you will find the hyperparameters of the flow inside the param_config.yaml. As an example, the changes you make to topK in param_config.yaml file will be reflected in the flow.dag.yaml at the run time. 
-
-Known issue: In addition to end-to-end running and debugging, promptflow allows single node runs for tests and debugging. However, please be aware that node running on its own that depend on configloader node will not work today. 
+Note: You will find two yaml files in the `rag-<vector-search>` folder. The `flow.dag.yaml` is the main yaml file that orchestrates various app components, such as retreivals, llm calls, etc. In addition, you will find the hyperparameters of the flow inside the `param_config.yaml`. As an example, the changes you make to `topK` in `param_config.yaml` file will be reflected in the `flow.dag.yaml` at the run time. 
 
 b. Steps for batch evaluation in vscode:
 
@@ -45,7 +43,7 @@ b. Steps for batch evaluation in vscode:
 2) Click batch run 
 3) When selecting input source, choose evalset.csv.
 4) Then choose the data mapping on the run yaml file. 
-You may either delete topK and maxTokens to use default values or provide integers for the desired values. Do not select them from data mapping as they will not be available
+You may either delete `topK` and `maxTokens` to use default values or provide integers for the desired values. Do not select them from data mapping as they will not be available
 5) The click run on the yaml file. 
 Once the run is completed, then you need to
 6) Go to evaluator directory and choose one of the folders and open the flow.dag.yaml file. Note that each folder presents one or many evaluation metrics.   
@@ -58,19 +56,17 @@ Once the run is completed, then you need to
 13) Click on the promptflow icon on the left ribbon of vscode
 14) Go to "Batch Run History" section and choose your recent run(s), then click on the Visualize.
 
-Note: You will find two yaml files in the `rag-<vector-search>` directories. The flow.dag.yaml is the main yaml file that orchestrates various app components, such as retreivals, llm calls, etc. In addition, you will find the hyperparameters of the flow inside the param_config.yaml. As an example, the changes you make to topK in param_config.yaml file will be reflected in the flow.dag.yaml at the run time. 
-
-Known issue: In addition to end-to-end running and debugging, promptflow allows single node runs for tests and debugging. However, please be aware that node running on its own that depend on configloader node will not work today. 
+> Note: You will find two yaml files in the `rag-<vector-search>` directories. The `flow.dag.yaml` is the main yaml file that orchestrates various app components, such as retreivals, llm calls, etc. In addition, you will find the hyperparameters of the flow inside the `param_config.yaml`. As an example, the changes you make to `topK` in `param_config.yaml` file will be reflected in the `flow.dag.yaml` at the run time. 
 
 c. Steps for experimentation in vscode:
 
-1) Similar to step a.3 open the flow.dag.yaml file. Locate a prompt node and clone it. It will create a new variant and associated jinja file. Make the changes to the prompt in the jinja file. You may also make the changes to the openai variables such as temperature in the cloned node in the flow.dag.yaml. You may create multiple variants for cloneable nodes. Then save the file. 
+1) Similar to step a.3 open the `flow.dag.yaml` file. Locate a prompt node and clone it. It will create a new variant and associated jinja file. Make the changes to the prompt in the jinja file. You may also make the changes to the openai variables such as temperature in the cloned node in the `flow.dag.yaml`. You may create multiple variants for cloneable nodes. Then save the file. 
 2) Finally, go through all the steps for the batch evaluations again to obtain evaluations for all the variants and compare the results. 
 
 d. Steps for batch experimentation using python SDK:
 1) Go to experimentation directory and chose the subdirectory based on your choice of vectorsearch services.   
-1) Open batchRunEvaluations.ipynb notebook and run through cells. Note: to setup the configs for the batch experimentation runs, you may modify run_config.yaml file for batch evaluations on several configurations as you may find in the last section of the notebook. 
-* Note: the notebook is setup to use evalset.csv, which contains 10 human-curated pairs of questions and answers. Please refer to the [readme file in the datasets subdirectory](\financial_transcripts\datasets\readme.md) for alternative datasets. 
+1) Open `batchRunEvaluations.ipynb` notebook and run through cells. Note: to setup the configs for the batch experimentation runs, you may modify `run_config.yaml` file for batch evaluations on several configurations as you may find in the last section of the notebook. 
+* Note: the notebook is setup to use `evalset.csv`, which contains 10 human-curated pairs of questions and answers. Please refer to the [readme file in the datasets subdirectory](\financial_transcripts\datasets\readme.md) for alternative datasets. 
 
 
 e. Steps for docker deployment:
@@ -82,7 +78,7 @@ pre-requisite: Docker. You can get docker from [here](https://www.docker.com/get
 ```bash
 pf flow build --source ./rag-<vector-search> --output deploy --format docker
 ```
->Note: replace vector-search with one of available search options: (1)azure-search (2)cosmos-mongo (3)cosmos-postgres
+>Note: replace `vector-search` with one of available search options: (1)azure-search (2)cosmos-mongo (3)cosmos-postgresql-pgvector (4)postgresql-flex-pgvector
 
 >Note: the deploy folder is where the llm app is packaged. 
 
@@ -131,7 +127,15 @@ print(response.text)
 
 ## Alternative Azure Vector databases
 
-Microsft azure databases, such as cosmosdb mongodb vcore or postgres flex, also offer vector search capabilities that could be used in lieu of azure search. Please refer to vectordb-tools directory for the instructions.
+Microsft azure databases, such as cosmosdb mongodb vcore or postgreSQL flexible server, also offer vector search capabilities that could be used in lieu of azure AI search. Please refer to `vectordb-tools` directory for the instructions.
+
+| Tool | Description|  
+|----------|----------|  
+|  [cosmos-mongodbvcore](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/vectordb-tools/cosmos-mongodbvcore) | Cosmos DB mongoDB vcore |  
+| [cosmos-postgresql-pgvector](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/vectordb-tools/cosmos-postgresql-pgvector)  | Cosmos DB PostgreSQL with pgvector extension  |  
+| [postgresql-flex-pgvector](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/vectordb-tools/postgresql-flex-pgvector)   | Azure DB PostgreSQL Flexible Server with pgvector extension |  
+
+
 
 ## Developer guide
 

@@ -1,0 +1,32 @@
+inputs:
+  query:
+    type: string
+    default: '"Could you please list azure data products?"'
+outputs:
+  out:
+    type: list
+    reference: ${Azure_postgreSQL_Vector_Search_pmez.output}
+nodes:
+- name: vector_embedding
+  type: python
+  source:
+    type: package
+    tool: promptflow.tools.embedding.embedding
+  inputs:
+    connection: aoai_connection
+    deployment_name: text-embedding-ada-002
+    input: ${inputs.query}
+- name: Azure_postgreSQL_Vector_Search_pmez
+  type: python
+  source:
+    type: package
+    tool: pfazuredb.tools.postgresqlpgvector.vectorsearch
+  inputs:
+    connection: postgresql_connection
+    table_name: msft_transcript
+    search_type: hybrid
+    num_results: 3
+    question: ${inputs.query}
+    embeddings: ${vector_embedding.output}
+    vectorsearch_method: Cosine
+    filter_text: (fiscalyear::int in (23) and fiscalquarter::int in (1))

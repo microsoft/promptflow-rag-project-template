@@ -3,11 +3,11 @@ In order to use other azure db products such as cosmodb mongodb vcore, please fo
 
 (1) Install pf-azuredb library
 - a) from source: [https://github.com/microsoft/pf-azuredb]
-- b) from pypi: (coming soon)
+- b) from pypi: [https://pypi.org/project/pf-azuredb/]
 
 (2) Make sure you add the database connection. For example, run the following command for cosmosdb mongodb connection. The python file is located in the connections folder.  
 ```
-python connect_cosmos.py
+python connect_postgresql_flex.py
 ```
 
 Also, note that you need to whitelist your ip address to establish connection to the database. 

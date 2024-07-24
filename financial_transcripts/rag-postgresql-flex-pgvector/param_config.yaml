@@ -1,0 +1,5 @@
+maxTokens: 3500
+searchType: filter_vector
+tableName: msft_transcript
+topK: 5
+vectorSearchMethod: L2
