@@ -31,7 +31,7 @@ jobs:
         run: |
           touch .env 
           echo "KEYS_FROM==${{ secrets.KEYS_FROM}}" >> .env
-          echo "COSMOS_DB_POSTGRES_CONN_STRING=${{ secrets.COSMOS_DB_POSTGRES_CONN_STRING }}" >> .env
+          echo "POSTGRESQL_FLEX_CONN_STRING=${{ secrets.POSTGRESQL_FLEX_CONN_STRING }}" >> .env
           echo "OPENAI_API_BASE=${{ secrets.OPENAI_API_BASE }}" >> .env
           echo "OPENAI_API_TYPE=${{ secrets.OPENAI_API_TYPE }}" >> .env
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
