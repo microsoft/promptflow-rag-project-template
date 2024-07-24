@@ -30,7 +30,7 @@ else:
     connection = CustomConnection(
         name="postgresql_connection",
         # Secrets is a required field for custom connection
-        secrets={ "POSTGRESQL_CONN_STRING": config["COSMOS-DB-POSTGRESQL_CONN_STRING"]}
+        secrets={ "POSTGRESQL_CONN_STRING": config["COSMOS_DB_POSTGRESQL_CONN_STRING"]}
     )
 
 # Create the connection, note that all secret values will be scrubbed in the returned result
