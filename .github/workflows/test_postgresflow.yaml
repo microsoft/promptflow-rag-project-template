@@ -31,8 +31,7 @@ jobs:
         run: |
           touch .env 
           echo "KEYS_FROM==${{ secrets.KEYS_FROM}}" >> .env
-          echo "COSMOS_DB_MONGO_URI=${{ secrets.COSMOS_DB_MONGO_URI }}" >> .env
-          echo "COSMOSDB_POSTGRES_CONN_STRING=${{ secrets.COSMOSDB_POSTGRES_CONN_STRING }}" >> .env
+          echo "COSMOS_DB_POSTGRES_CONN_STRING=${{ secrets.COSMOS_DB_POSTGRES_CONN_STRING }}" >> .env
           echo "OPENAI_API_BASE=${{ secrets.OPENAI_API_BASE }}" >> .env
           echo "OPENAI_API_TYPE=${{ secrets.OPENAI_API_TYPE }}" >> .env
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
@@ -48,7 +47,7 @@ jobs:
       - name: Create Connections 
         run: |
           cd financial_transcripts/connections
-          python connect_postgres.py
+          python connect_cosmos_postgresql.py
           python connect_aoai.py
 
       - name: Install pytest
@@ -57,4 +56,4 @@ jobs:
 
       - name: Run Postgres Flow
         run: |
-          pytest tests/financial_transcripts/postgres
+          pytest tests/financial_transcripts/postgresql
