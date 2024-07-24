@@ -1,4 +1,4 @@
-name: Build CosmosPostgres Docker and Push to Registry 
+name: Build CosmosPostgreSQL Docker and Push to Registry 
 
 on:
   push:
