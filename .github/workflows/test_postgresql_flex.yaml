@@ -1,4 +1,4 @@
-name: Unit Testing PostgreSQL
+name: Unit Testing PostgreSQL flex
 
 on:
   push:
@@ -38,16 +38,16 @@ jobs:
           echo "OPENAI_DEPLOYMENT_EMBEDDING=${{ secrets.OPENAI_DEPLOYMENT_EMBEDDING }}" >> .env
           echo "OPENAI_API_VERSION=${{ secrets.OPENAI_API_VERSION }}" >> .env
 
-      - name: Install dependencies from pull request branch's cosmos postgres requirement
+      - name: Install dependencies from pull request branch's postgresql requirement
         run: |
           python -m pip install --upgrade pip 
-          cd financial_transcripts/rag-cosmos-postgresql-pgvector
+          cd financial_transcripts/rag-postgresql-flex-pgvector
           python -m pip install -r requirements.txt 
 
       - name: Create Connections 
         run: |
           cd financial_transcripts/connections
-          python connect_cosmos_postgresql.py
+          python connect_postgresql_flex.py
           python connect_aoai.py
 
       - name: Install pytest
@@ -56,4 +56,4 @@ jobs:
 
       - name: Run Postgres Flow
         run: |
-          pytest tests/financial_transcripts/postgresql
+          pytest tests/financial_transcripts/postgresql-flex
