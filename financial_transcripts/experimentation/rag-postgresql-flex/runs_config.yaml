@@ -1,0 +1,15 @@
+Run1:
+  maxTokens: 3500
+  topK: 5
+  searchType: vector
+  tableName: msft_transcript
+Run2:
+  maxTokens: 3500
+  topK: 5
+  searchType: hybrid
+  tableName: msft_transcript
+Run3:
+  maxTokens: 3500
+  topK: 5
+  searchType: filter_vector
+  tableName: msft_transcript
