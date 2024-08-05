@@ -30,6 +30,6 @@ dependencies:
     - azure-keyvault==4.2.0
     - python-docx==1.1.0
     - unstructured==0.12.2
-    - pf-azuredb==1.0.0
+    - pf-azuredb==1.0.1
     - ipykernel==6.28.0
     - azure-identity==1.16.0 

@@ -19,18 +19,18 @@ if config["KEYS_FROM"] == "KEYVAULT":
 
     # Initialize a custom connection object
     connection = CustomConnection(
-        name="postgres_connection",
+        name="postgresql_connection",
         # Secrets is a required field for custom connection
-        secrets={"AZURE_COSMOSDB_POSTGRES_CONN_STRING": client.get_secret(
-                "COSMOSDB-POSTGRES-CONN-STRING"
+        secrets={"POSTGRESQL_CONN_STRING": client.get_secret(
+                "POSTGRESQL-FLEX-CONN-STRING"
             ).value})
 else:
     print(".env was selected.")
     # Initialize an AzureOpenAIConnection object
     connection = CustomConnection(
-        name="postgres_connection",
+        name="postgresql_connection",
         # Secrets is a required field for custom connection
-        secrets={ "AZURE_COSMOSDB_POSTGRES_CONN_STRING": config["COSMOSDB_POSTGRES_CONN_STRING"]}
+        secrets={ "POSTGRESQL_CONN_STRING": config["POSTGRESQL_FLEX_CONN_STRING"]}
     )
 
 # Create the connection, note that all secret values will be scrubbed in the returned result

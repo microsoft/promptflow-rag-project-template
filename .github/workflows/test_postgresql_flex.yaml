@@ -1,4 +1,4 @@
-name: Unit Testing Mongodb
+name: Unit Testing PostgreSQL flex
 
 on:
   push:
@@ -8,11 +8,6 @@ on:
     branches:
       - '*'
 
-# on:
-#   workflow_dispatch:  # Manually trigger the workflow
-
-# on:
-#   [push]
 
 jobs:
   test:
@@ -36,29 +31,29 @@ jobs:
         run: |
           touch .env 
           echo "KEYS_FROM==${{ secrets.KEYS_FROM}}" >> .env
-          echo "COSMOS_DB_MONGO_URI=${{ secrets.COSMOS_DB_MONGO_URI }}" >> .env
+          echo "POSTGRESQL_FLEX_CONN_STRING=${{ secrets.POSTGRESQL_FLEX_CONN_STRING }}" >> .env
           echo "OPENAI_API_BASE=${{ secrets.OPENAI_API_BASE }}" >> .env
           echo "OPENAI_API_TYPE=${{ secrets.OPENAI_API_TYPE }}" >> .env
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           echo "OPENAI_DEPLOYMENT_EMBEDDING=${{ secrets.OPENAI_DEPLOYMENT_EMBEDDING }}" >> .env
           echo "OPENAI_API_VERSION=${{ secrets.OPENAI_API_VERSION }}" >> .env
 
-      - name: Install dependencies from pull request branch's cosmos mongo requirement
+      - name: Install dependencies from pull request branch's postgresql requirement
         run: |
           python -m pip install --upgrade pip 
-          cd financial_transcripts/rag-cosmos-mongo 
+          cd financial_transcripts/rag-postgresql-flex-pgvector
           python -m pip install -r requirements.txt 
 
       - name: Create Connections 
         run: |
           cd financial_transcripts/connections
-          python connect_cosmos_mongovcore.py
+          python connect_postgresql_flex.py
           python connect_aoai.py
 
       - name: Install pytest
         run: |
           python -m pip install pytest 
 
-      - name: Run CosmosMongo Flow
+      - name: Run Postgres Flow
         run: |
-          pytest tests/financial_transcripts/mongo
+          pytest tests/financial_transcripts/postgresql-flex

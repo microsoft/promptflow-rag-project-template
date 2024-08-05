@@ -1,4 +1,4 @@
-name: Build CosmosPostgres Docker and Push to Registry 
+name: Build CosmosPostgreSQL Docker and Push to Registry 
 
 on:
   push:
@@ -30,13 +30,12 @@ jobs:
       
       - name: Install promptflow dependencies
         run: |     
-          python -m pip install -r financial_transcripts/rag-cosmos-postgres/requirements.txt
+          python -m pip install -r financial_transcripts/rag-cosmos-postgresql-pgvector/requirements.txt
       - name: Create .env file in root directory 
         run: |
           touch .env 
           echo "KEYS_FROM==${{ secrets.KEYS_FROM}}" >> .env
-          echo "COSMOS_DB_MONGO_URI=${{ secrets.COSMOS_DB_MONGO_URI }}" >> .env
-          echo "COSMOSDB_POSTGRES_CONN_STRING=${{ secrets.COSMOSDB_POSTGRES_CONN_STRING }}" >> .env
+          echo "COSMOS_DB_POSTGRESQL_CONN_STRING=${{ secrets.COSMOS_DB_POSTGRESQL_CONN_STRING }}" >> .env
           echo "OPENAI_API_BASE=${{ secrets.OPENAI_API_BASE }}" >> .env
           echo "OPENAI_API_TYPE=${{ secrets.OPENAI_API_TYPE }}" >> .env
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
@@ -50,12 +49,12 @@ jobs:
       - name: Create Connections 
         run: |
           cd financial_transcripts/connections
-          python connect_postgres.py
+          python connect_cosmos_postgresql.py
           python connect_aoai.py
       - name: Build Docker image
         run: |
           cd financial_transcripts
-          pf flow build --source ./rag-cosmos-postgres --output deploy --format docker
+          pf flow build --source ./rag-cosmos-postgresql-pgvector --output deploy --format docker
           docker build -t rag-postgres-app-serve deploy
       - name: Log in to Azure Container Registry
         run: |
