@@ -33,3 +33,4 @@ dependencies:
     - pf-azuredb==1.0.1
     - ipykernel==6.28.0
     - azure-identity==1.16.0 
+    - azure-cosmos==4.7.0
