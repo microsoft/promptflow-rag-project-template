@@ -19,3 +19,4 @@ promptflow-tools==1.3.0
 azure-keyvault==4.2.0
 pf-azuredb==1.1.0
 azure-identity==1.16.0 
+azure-cosmos==4.7.0
