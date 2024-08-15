@@ -1,0 +1,32 @@
+inputs:
+  query:
+    type: string
+    default: '"Could you please list azure data products?"'
+outputs:
+  out:
+    type: list
+    reference: ${Azure_CosmosDB_NoSQL_Vector_Search.output}
+nodes:
+- name: vector_embedding
+  type: python
+  source:
+    type: package
+    tool: promptflow.tools.embedding.embedding
+  inputs:
+    connection: aoai_connection
+    deployment_name: text-embedding-ada-002
+    input: ${inputs.query}
+- name: Azure_CosmosDB_NoSQL_Vector_Search
+  type: python
+  source:
+    type: package
+    tool: pfazuredb.tools.nosql.vectorsearch
+  inputs:
+    connection: nosql_connection
+    db_name: promptflow_sample
+    container_name: ms_transcripts
+    num_results: 2
+    embeddings: ${vector_embedding.output}
+    search_type: filter_vector
+    filter_text: c.fiscal_year IN ("23") and c.fiscal_quarter IN ("1")
+    search_index_name: contentVector
