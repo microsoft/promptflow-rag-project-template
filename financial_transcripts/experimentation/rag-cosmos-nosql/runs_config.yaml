@@ -1,0 +1,21 @@
+Run1:
+  maxTokens: 3500
+  topK: 5
+  searchType: vector
+  containerName: ms_transcripts
+  dbName: promptflow_sample
+  vectorSearchIndices: [contentVector, sourceVector]
+Run2:
+  maxTokens: 3500
+  topK: 3
+  searchType: filter_vector
+  containerName: ms_transcripts
+  dbName: promptflow_sample
+  vectorSearchIndices: [contentVector, sourceVector]
+Run3:
+  maxTokens: 3500
+  topK: 5
+  searchType: filter_vector
+  containerName: ms_transcripts
+  dbName: promptflow_sample
+  vectorSearchIndices: [contentVector, sourceVector]
