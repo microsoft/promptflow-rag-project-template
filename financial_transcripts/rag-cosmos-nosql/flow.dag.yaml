@@ -1,0 +1,188 @@
+id: template_chat_flow
+name: Template Chat Flow
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  chat_history:
+    type: list
+    default: []
+    is_chat_input: false
+    is_chat_history: true
+  query:
+    type: string
+    default: What is the quarterly revenue of Microsoft Cloud in FY23Q1?
+    is_chat_input: true
+    is_chat_history: false
+outputs:
+  reply:
+    type: string
+    reference: ${GenerateResult.output}
+    is_chat_output: true
+  fetched_docs:
+    type: string
+    reference: ${FormatRetrievedDocuments.output}
+    is_chat_output: false
+  log_params:
+    type: string
+    reference: ${LogParam.output}
+    is_chat_output: false
+nodes:
+- name: ConfigLoader
+  type: python
+  source:
+    type: code
+    path: ConfigLoader.py
+  inputs:
+    config_yaml: param_config.yaml
+- name: CheckExistingContext
+  type: python
+  source:
+    type: code
+    path: CheckExistingContext.py
+  inputs:
+    history: ${inputs.chat_history}
+- name: QueryParser
+  type: python
+  source:
+    type: code
+    path: QueryParser.py
+  inputs:
+    query: ${QueryRewriter.output}
+  aggregation: false
+- name: ChatFlow
+  type: python
+  source:
+    type: code
+    path: ChatFlow.py
+  inputs:
+    check_existing_context: ${CheckExistingContext.output}
+    filter: ${QueryParser.output}
+    searchType: ${ConfigLoader.output.searchType}
+- name: FormatRetrievedDocuments
+  type: python
+  source:
+    type: code
+    path: FormatRetrievedDocuments.py
+  inputs:
+    docs: ${Azure_CosmosDB_NoSQL_Vector_Search_imfr.output}
+    maxTokens: ${ConfigLoader.output.maxTokens}
+  use_variants: false
+- name: FormatConversation
+  type: python
+  source:
+    type: code
+    path: FormatConversation.py
+  inputs:
+    history: ${inputs.chat_history}
+    maxTokens: 800
+  use_variants: false
+- name: DetermineReply
+  type: llm
+  source:
+    type: code
+    path: DetermineReply.jinja2
+  inputs:
+    deployment_name: gpt-4-32k
+    temperature: 0
+    top_p: 1
+    max_tokens: 800
+    presence_penalty: 0
+    frequency_penalty: 0
+    conversation: ${FormatConversation.output}
+    documentation: ${FormatRetrievedDocuments.output}
+    user_query: ${QueryRewriter.output}
+  connection: aoai_connection
+  api: chat
+  use_variants: false
+  activate:
+    when: ${ChatFlow.output}
+    is: new_retrieval
+- name: GetContextFromHistory
+  type: python
+  source:
+    type: code
+    path: GetContextFromHistory.py
+  inputs:
+    history: ${inputs.chat_history}
+  activate:
+    when: ${ChatFlow.output}
+    is: use_same_context
+- name: ContinueReply
+  type: llm
+  source:
+    type: code
+    path: ContinueReply.jinja2
+  inputs:
+    deployment_name: gpt-4-32k
+    conversation: ${FormatConversation.output}
+    context: ${GetContextFromHistory.output}
+    user_query: ${inputs.query}
+  connection: aoai_connection
+  api: chat
+  activate:
+    when: ${ChatFlow.output}
+    is: use_same_context
+- name: GenerateResult
+  type: python
+  source:
+    type: code
+    path: GenerateResult.py
+  inputs:
+    determine_reply: ${DetermineReply.output}
+    continue_reply: ${ContinueReply.output}
+    chat_flow: ${ChatFlow.output}
+- name: LogParam
+  type: python
+  source:
+    type: code
+    path: LogParam.py
+  inputs:
+    filter: ${QueryParser.output}
+    topK: ${ConfigLoader.output.topK}
+    maxTokens: ${ConfigLoader.output.maxTokens}
+    searchType: ${ConfigLoader.output.searchType}
+    dbName: ${ConfigLoader.output.dbName}
+    containerName: ${ConfigLoader.output.containerName}
+    vectorSearchIndices: ${ConfigLoader.output.vectorSearchIndices[0]}
+- name: Embedding
+  type: python
+  source:
+    type: package
+    tool: promptflow.tools.embedding.embedding
+  inputs:
+    connection: aoai_connection
+    input: ${QueryRewriter.output}
+    deployment_name: text-embedding-ada-002
+- name: QueryForFilter
+  type: python
+  source:
+    type: code
+    path: QueryForFilter.py
+  inputs:
+    input_dict: ${QueryParser.output}
+- name: QueryRewriter
+  type: llm
+  source:
+    type: code
+    path: QueryRewriter.jinja2
+  inputs:
+    deployment_name: gpt-4-32k
+    max_tokens: 5000
+    query: ${inputs.query}
+    chat_history: ${inputs.chat_history}
+  connection: aoai_connection
+  api: chat
+- name: Azure_CosmosDB_NoSQL_Vector_Search_imfr
+  type: python
+  source:
+    type: package
+    tool: pfazuredb.tools.nosql.vectorsearch
+  inputs:
+    connection: nosql_connection
+    db_name: ${ConfigLoader.output.dbName}
+    container_name: ${ConfigLoader.output.containerName}
+    num_results: ${ConfigLoader.output.topK}
+    embeddings: ${Embedding.output}
+    filter_text: ${QueryForFilter.output}
+    search_type: filter_vector
+    search_index_name: ${ConfigLoader.output.vectorSearchIndices[0]}

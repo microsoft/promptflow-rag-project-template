@@ -127,13 +127,14 @@ print(response.text)
 
 ## Alternative Azure Vector databases
 
-Microsft azure databases, such as cosmosdb mongodb vcore or postgreSQL flexible server, also offer vector search capabilities that could be used in lieu of azure AI search. Please refer to `vectordb-tools` directory for the instructions.
+Microsft azure databases, such as cosmosdb mongodb vcore, nosql, or postgreSQL flexible server, also offer vector search capabilities that could be used in lieu of azure AI search. Please refer to `vectordb-tools` directory for the instructions. You may also refer to rag samples for an end-to-end implementation on financial transcripts. 
 
-| Tool | Description|  
-|----------|----------|  
-|  [cosmos-mongodbvcore](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/vectordb-tools/cosmos-mongodbvcore) | Cosmos DB mongoDB vcore |  
-| [cosmos-postgresql-pgvector](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/vectordb-tools/cosmos-postgresql-pgvector)  | Cosmos DB PostgreSQL with pgvector extension  |  
-| [postgresql-flex-pgvector](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/vectordb-tools/postgresql-flex-pgvector)   | Azure DB PostgreSQL Flexible Server with pgvector extension |  
+| Tool | Description| End-to-End RAG sample|
+|----------|----------|------------|  
+|  [cosmos-mongodbvcore](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/vectordb-tools/cosmos-mongodbvcore) | Cosmos DB mongoDB vcore |[rag-cosmos-mongo](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/rag-cosmos-mongo)|
+| [cosmos-postgresql-pgvector](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/vectordb-tools/cosmos-postgresql-pgvector)  | Cosmos DB PostgreSQL with pgvector extension  |[rag-cosmos-postgresql-pgvector](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/rag-cosmos-postgresql-pgvector) 
+| [postgresql-flex-pgvector](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/vectordb-tools/postgresql-flex-pgvector)   | Azure DB PostgreSQL Flexible Server with pgvector extension | [rag-postgresql-flex-pgvector](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/rag-postgresql-flex-pgvector) 
+| [cosmos-nosql](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/vectordb-tools/cosmos-nosql)| Cosmos DB NoSQL| [rag-cosmos-nosql](https://github.com/microsoft/promptflow-rag-project-template/tree/main/financial_transcripts/rag-cosmos-nosql)
 
 
 

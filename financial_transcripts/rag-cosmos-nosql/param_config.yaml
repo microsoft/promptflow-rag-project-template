@@ -1,0 +1,8 @@
+containerName: ms_transcripts
+dbName: promptflow_sample
+maxTokens: 3500
+searchType: filter_vector
+topK: 5
+vectorSearchIndices:
+- contentVector
+- sourceVector
